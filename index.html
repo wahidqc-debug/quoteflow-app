@@ -916,7 +916,91 @@ textarea{
 
 </div>
 </section>
+<!-- ===== SMART QUOTE ASSISTANT ===== -->
+<section class="card" id="smartQuoteAssistant">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;">
+    <div>
+      <h2 class="card-title" style="margin-bottom:5px;">✨ Smart Quote Assistant</h2>
+      <div style="color:#64748b;font-size:14px;">
+        Build professional quotation items faster.
+      </div>
+    </div>
 
+    <span style="
+      background:#eef2ff;
+      color:#6d28d9;
+      padding:7px 12px;
+      border-radius:20px;
+      font-size:12px;
+      font-weight:700;">
+      AI Ready
+    </span>
+  </div>
+
+  <div style="
+    margin-top:18px;
+    padding:18px;
+    border:1px solid #dbeafe;
+    border-radius:14px;
+    background:linear-gradient(135deg,#f8fbff,#f5f3ff);
+  ">
+
+    <label for="smartQuoteRequest" style="display:block;margin-bottom:8px;">
+      Describe the job or service
+    </label>
+
+    <textarea
+      id="smartQuoteRequest"
+      rows="3"
+      placeholder="Example: UT thickness inspection for 25 piping locations including technician, equipment, reporting and mobilization..."
+      style="width:100%;resize:vertical;"
+    ></textarea>
+
+    <div style="
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:12px;
+      align-items:center;
+    ">
+
+      <button
+        type="button"
+        class="btn btn-blue"
+        onclick="generateSmartQuote()">
+        ✨ Generate Items
+      </button>
+
+      <button
+        type="button"
+        class="btn"
+        onclick="clearSmartQuote()">
+        Clear
+      </button>
+
+      <span style="
+        color:#64748b;
+        font-size:12px;
+        margin-left:auto;">
+        Your pricing remains under your control
+      </span>
+
+    </div>
+  </div>
+
+  <div style="
+    margin-top:14px;
+    padding:12px 14px;
+    background:#ecfdf5;
+    border:1px solid #a7f3d0;
+    border-radius:10px;
+    color:#047857;
+    font-size:13px;
+    font-weight:600;">
+    💡 Describe the scope and QuoteFlow can prepare the quotation line items for you.
+  </div>
+</section>
+<!-- ===== END SMART QUOTE ASSISTANT ===== -->
 
 <section class="card">
 <div style="display:flex;justify-content:space-between;align-items:center">
@@ -2012,7 +2096,91 @@ function initialize(){
   loadBusinessProfile();
 
   document.getElementById("documentDate").value = localDate();
+/* ========== SMART QUOTE ASSISTANT ========== */
 
+function smartQuoteGenerate() {
+  const description = document.getElementById("smartDescription");
+  const qty = document.getElementById("smartQty");
+  const price = document.getElementById("smartPrice");
+  const cost = document.getElementById("smartCost");
+
+  if (!description || !description.value.trim()) {
+    alert("Please describe the service or product first.");
+    return;
+  }
+
+  const itemDescription = description.value.trim();
+  const itemQty = parseFloat(qty?.value) || 1;
+  const itemPrice = parseFloat(price?.value) || 0;
+  const itemCost = parseFloat(cost?.value) || 0;
+
+  addItem();
+
+  const rows = document.querySelectorAll("#itemsBody tr");
+  const lastRow = rows[rows.length - 1];
+
+  if (!lastRow) {
+    alert("Unable to create quotation item.");
+    return;
+  }
+
+  const inputs = lastRow.querySelectorAll("input");
+
+  if (inputs.length >= 4) {
+    inputs[0].value = itemDescription;
+    inputs[1].value = itemQty;
+    inputs[2].value = itemPrice;
+    inputs[3].value = itemCost;
+
+    inputs.forEach(input => {
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+  }
+
+  calculate();
+
+  description.value = "";
+  if (qty) qty.value = "1";
+  if (price) price.value = "";
+  if (cost) cost.value = "";
+
+  description.focus();
+}
+
+function smartQuoteSuggestion(type) {
+  const description = document.getElementById("smartDescription");
+
+  if (!description) return;
+
+  const suggestions = {
+    inspection:
+      "Inspection and integrity assessment services including visual inspection, NDT examination, reporting and technical recommendations.",
+
+    ndt:
+      "Non-Destructive Testing (NDT) services including UT, MT, PT and inspection reporting.",
+
+    maintenance:
+      "Technical maintenance services including manpower, equipment, supervision and final service report.",
+
+    engineering:
+      "Engineering consultancy services including technical review, assessment, recommendations and final engineering report."
+  };
+
+  description.value = suggestions[type] || "";
+  description.focus();
+}
+
+function smartQuoteClear() {
+  const description = document.getElementById("smartDescription");
+  const qty = document.getElementById("smartQty");
+  const price = document.getElementById("smartPrice");
+  const cost = document.getElementById("smartCost");
+
+  if (description) description.value = "";
+  if (qty) qty.value = "1";
+  if (price) price.value = "";
+  if (cost) cost.value = "";
+}
   setDocumentType("quotation",true);
 
   document.getElementById("paymentTerms").value =
