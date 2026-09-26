@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuoteFlow</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:#f4f6f8;
+  color:#17212b;
+}
+
+header{
+  background:#111827;
+  color:white;
+  padding:22px 18px;
+}
+
+header h1{
+  margin:0;
+  font-size:28px;
+}
+
+header p{
+  margin:5px 0 0;
+  color:#cbd5e1;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:18px;
+}
+
+.card{
+  background:white;
+  border-radius:14px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
+
+h2{
+  margin-top:0;
+  font-size:19px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:600;
+  margin-bottom:5px;
+}
+
+input,select{
+  width:100%;
+  padding:11px;
+  border:1px solid #d7dce1;
+  border-radius:8px;
+  font-size:16px;
+}
+
+.item{
+  display:grid;
+  grid-template-columns:2fr .7fr 1fr 1fr 42px;
+  gap:8px;
+  margin-bottom:10px;
+  align-items:end;
+}
+
+button{
+  border:0;
+  border-radius:9px;
+  padding:11px 16px;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.primary{
+  background:#2563eb;
+  color:white;
+}
+
+.secondary{
+  background:#e5e7eb;
+  color:#111827;
+}
+
+.danger{
+  background:#fee2e2;
+  color:#b91c1c;
+  padding:11px;
+}
+
+.summary{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.summary div{
+  background:#f8fafc;
+  padding:14px;
+  border-radius:10px;
+}
+
+.summary span{
+  display:block;
+  font-size:12px;
+  color:#64748b;
+}
+
+.summary strong{
+  display:block;
+  margin-top:5px;
+  font-size:20px;
+}
+
+.total{
+  background:#eff6ff!important;
+}
+
+.profit{
+  background:#ecfdf5!important;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+@media(max-width:700px){
+  .grid{grid-template-columns:1fr}
+  .item{
+    grid-template-columns:1fr 1fr;
+    padding-bottom:15px;
+    border-bottom:1px solid #eee;
+  }
+  .summary{grid-template-columns:1fr 1fr}
+}
+
+@media print{
+  body{background:white}
+  .no-print{display:none!important}
+  .card{box-shadow:none;border:1px solid #ddd}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>QuoteFlow</h1>
+  <p>Fast quotations. Clear profits.</p>
+</header>
+
+<div class="container">
+
+<div class="card">
+<h2>Quotation Details</h2>
+
+<div class="grid">
+
+<div>
+<label>Business Name</label>
+<input id="business" placeholder="Your business">
+</div>
+
+<div>
+<label>Customer</label>
+<input id="customer" placeholder="Customer name">
+</div>
+
+<div>
+<label>Quotation No.</label>
+<input id="quoteNo">
+</div>
+
+<div>
+<label>Date</label>
+<input id="date" type="date">
+</div>
+
+<div>
+<label>Currency</label>
+<select id="currency" onchange="calculate()">
+<option>AED</option>
+<option>USD</option>
+<option>EUR</option>
+<option>GBP</option>
+<option>SAR</option>
+<option>EGP</option>
+</select>
+</div>
+
+<div>
+<label>VAT %</label>
+<input id="vat" type="number" value="5" oninput="calculate()">
+</div>
+
+</div>
+</div>
+
+
+<div class="card">
+
+<h2>Items</h2>
+
+<div id="items"></div>
+
+<button class="secondary no-print" onclick="addItem()">
++ Add Item
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>Summary</h2>
+
+<div class="summary">
+
+<div>
+<span>Subtotal</span>
+<strong id="subtotal">0.00</strong>
+</div>
+
+<div>
+<span>VAT</span>
+<strong id="vatAmount">0.00</strong>
+</div>
+
+<div class="total">
+<span>Total</span>
+<strong id="total">0.00</strong>
+</div>
+
+<div>
+<span>Total Cost</span>
+<strong id="cost">0.00</strong>
+</div>
+
+<div class="profit">
+<span>Estimated Profit</span>
+<strong id="profit">0.00</strong>
+</div>
+
+<div class="profit">
+<span>Profit Margin</span>
+<strong id="margin">0%</strong>
+</div>
+
+</div>
+</div>
+
+
+<div class="card no-print">
+
+<div class="actions">
+
+<button class="primary" onclick="window.print()">
+Print / Save PDF
+</button>
+
+<button class="secondary" onclick="saveQuote()">
+Save Quotation
+</button>
+
+<button class="secondary" onclick="newQuote()">
+New Quotation
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+let itemCount=0;
+
+document.getElementById("date").valueAsDate=new Date();
+
+document.getElementById("quoteNo").value=
+"Q-"+Date.now().toString().slice(-6);
+
+
+function addItem(description="",qty=1,price=0,cost=0){
+
+itemCount++;
+
+const div=document.createElement("div");
+
+div.className="item";
+
+div.innerHTML=`
+
+<div>
+<label>Description</label>
+<input class="desc" value="${description}" placeholder="Service or product">
+</div>
+
+<div>
+<label>Qty</label>
+<input class="qty" type="number" value="${qty}" min="0" oninput="calculate()">
+</div>
+
+<div>
+<label>Price</label>
+<input class="price" type="number" value="${price}" min="0" step="0.01" oninput="calculate()">
+</div>
+
+<div>
+<label>Cost</label>
+<input class="itemCost" type="number" value="${cost}" min="0" step="0.01" oninput="calculate()">
+</div>
+
+<button class="danger no-print" onclick="this.parentElement.remove();calculate()">×</button>
+
+`;
+
+document.getElementById("items").appendChild(div);
+
+calculate();
+}
+
+
+function calculate(){
+
+let subtotal=0;
+let totalCost=0;
+
+document.querySelectorAll(".item").forEach(item=>{
+
+const qty=parseFloat(item.querySelector(".qty").value)||0;
+const price=parseFloat(item.querySelector(".price").value)||0;
+const cost=parseFloat(item.querySelector(".itemCost").value)||0;
+
+subtotal+=qty*price;
+totalCost+=qty*cost;
+
+});
+
+const vatRate=parseFloat(document.getElementById("vat").value)||0;
+
+const vatAmount=subtotal*(vatRate/100);
+
+const total=subtotal+vatAmount;
+
+const profit=subtotal-totalCost;
+
+const margin=subtotal>0?(profit/subtotal)*100:0;
+
+const currency=document.getElementById("currency").value;
+
+document.getElementById("subtotal").innerText=
+currency+" "+subtotal.toFixed(2);
+
+document.getElementById("vatAmount").innerText=
+currency+" "+vatAmount.toFixed(2);
+
+document.getElementById("total").innerText=
+currency+" "+total.toFixed(2);
+
+document.getElementById("cost").innerText=
+currency+" "+totalCost.toFixed(2);
+
+document.getElementById("profit").innerText=
+currency+" "+profit.toFixed(2);
+
+document.getElementById("margin").innerText=
+margin.toFixed(1)+"%";
+
+}
+
+
+function saveQuote(){
+
+const data={
+business:document.getElementById("business").value,
+customer:document.getElementById("customer").value,
+quoteNo:document.getElementById("quoteNo").value,
+date:document.getElementById("date").value,
+currency:document.getElementById("currency").value,
+vat:document.getElementById("vat").value
+};
+
+localStorage.setItem("quoteflow-last",JSON.stringify(data));
+
+alert("Quotation saved on this device.");
+
+}
+
+
+function newQuote(){
+
+if(!confirm("Create a new quotation?")) return;
+
+document.getElementById("customer").value="";
+
+document.getElementById("quoteNo").value=
+"Q-"+Date.now().toString().slice(-6);
+
+document.getElementById("items").innerHTML="";
+
+addItem();
+
+}
+
+
+addItem();
+
+</script>
+
+</body>
+</html>
