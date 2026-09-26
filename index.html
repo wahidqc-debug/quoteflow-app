@@ -3,334 +3,889 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>QuoteFlow</title>
+<meta name="theme-color" content="#0b1730">
+<title>QuoteFlow Pro</title>
 
 <style>
+:root{
+  --navy:#0b1730;
+  --navy2:#10254d;
+  --blue:#1769e0;
+  --blue2:#2f80ed;
+  --purple:#7137e8;
+  --green:#079669;
+  --red:#d93b4a;
+  --bg:#f2f5f9;
+  --card:#fff;
+  --text:#172235;
+  --muted:#69778d;
+  --line:#dfe6ef;
+  --soft:#eef5ff;
+}
+
 *{box-sizing:border-box}
 
+html{scroll-behavior:smooth}
+
 body{
-margin:0;
-background:#f3f5f7;
-color:#17212b;
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
 }
 
-header{
-background:#111827;
-color:white;
-padding:22px
+button,input,select,textarea{font:inherit}
+
+button{cursor:pointer}
+
+.app{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:230px 1fr;
 }
 
-header h1{margin:0;font-size:28px}
-header p{margin:5px 0 0;color:#cbd5e1}
+/* SIDEBAR */
 
-.container{
-max-width:1000px;
-margin:auto;
-padding:20px
+.sidebar{
+  background:linear-gradient(180deg,#0b1730,#10254d);
+  color:#fff;
+  padding:24px 16px;
+  position:sticky;
+  top:0;
+  height:100vh;
+}
+
+.brand{
+  font-size:25px;
+  font-weight:900;
+  margin-bottom:4px;
+}
+
+.brand span{color:#58a5ff}
+
+.tagline{
+  color:#b8c7df;
+  font-size:12px;
+  margin-bottom:30px;
+}
+
+.navbtn{
+  width:100%;
+  border:0;
+  color:#dce7f8;
+  background:transparent;
+  padding:12px;
+  border-radius:10px;
+  text-align:left;
+  margin:3px 0;
+  font-weight:700;
+}
+
+.navbtn:hover,.navbtn.active{
+  background:#1769e0;
+  color:white;
+}
+
+.probox{
+  margin-top:30px;
+  padding:15px;
+  border:1px solid #b88a18;
+  border-radius:12px;
+  background:rgba(180,126,0,.13);
+}
+
+.probox strong{
+  display:block;
+  color:#ffd76a;
+  margin-bottom:6px;
+}
+
+.probox small{color:#e6d7a6}
+
+/* MAIN */
+
+.main{min-width:0}
+
+.topbar{
+  background:#fff;
+  border-bottom:1px solid var(--line);
+  padding:14px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+.topbar h1{
+  margin:0;
+  font-size:20px;
+}
+
+.status{
+  font-size:11px;
+  color:#64748b;
+  background:#f1f5f9;
+  border-radius:20px;
+  padding:5px 9px;
+  margin-left:8px;
+}
+
+.top-actions{
+  display:flex;
+  gap:8px;
+}
+
+.content{
+  max-width:1200px;
+  margin:auto;
+  padding:18px;
 }
 
 .card{
-background:white;
-border-radius:15px;
-padding:20px;
-margin-bottom:16px;
-box-shadow:0 2px 12px rgba(0,0,0,.06)
+  background:#fff;
+  border:1px solid #e3e9f1;
+  border-radius:14px;
+  padding:18px;
+  margin-bottom:14px;
+  box-shadow:0 3px 12px rgba(20,40,70,.04);
 }
 
-h2{margin:0 0 17px;font-size:20px}
+.card-title{
+  margin:0 0 15px;
+  font-size:17px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:13px
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
 }
 
 label{
-display:block;
-font-size:13px;
-font-weight:700;
-margin-bottom:6px
+  display:block;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:5px;
 }
 
 input,select,textarea{
-width:100%;
-padding:11px;
-border:1px solid #d5dbe2;
-border-radius:9px;
-font-size:16px;
-background:white
+  width:100%;
+  border:1px solid #d5deea;
+  border-radius:8px;
+  padding:10px 11px;
+  background:#fff;
+  color:#172235;
 }
 
-textarea{min-height:70px}
-
-.item{
-display:grid;
-grid-template-columns:2fr .55fr 1fr 1fr 44px;
-gap:8px;
-align-items:end;
-margin-bottom:10px
+input:focus,select:focus,textarea:focus{
+  outline:2px solid #cde2ff;
+  border-color:#4d93ec;
 }
 
-button{
-border:0;
-border-radius:9px;
-padding:11px 16px;
-font-weight:700;
-font-size:14px;
-cursor:pointer
+textarea{
+  resize:vertical;
+  min-height:76px;
 }
 
-.primary{background:#2563eb;color:white}
-.secondary{background:#e5e7eb;color:#111827}
-.success{background:#059669;color:white}
-.invoice-btn{background:#7c3aed;color:white}
-.danger{background:#fee2e2;color:#b91c1c;padding:11px}
+.field{margin-bottom:10px}
 
-.actions{
-display:flex;
-gap:9px;
-flex-wrap:wrap
+/* BUSINESS PROFILE */
+
+.profile-box{
+  border:1px solid #d8e4f2;
+  border-radius:12px;
+  padding:15px;
+  background:linear-gradient(145deg,#fff,#f7fbff);
 }
 
-.summary{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px
+.profile-head{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  margin-bottom:13px;
 }
 
-.summary div{
-background:#f8fafc;
-border-radius:11px;
-padding:14px
+.logo-box{
+  width:78px;
+  height:78px;
+  border:1px dashed #9db7d7;
+  border-radius:13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background:#fff;
+  flex-shrink:0;
 }
 
-.summary span{
-display:block;
-color:#64748b;
-font-size:12px
+.logo-box img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
 }
 
-.summary strong{
-display:block;
-font-size:19px;
-margin-top:5px
+.logo-placeholder{
+  text-align:center;
+  font-size:10px;
+  color:#7b8da5;
+  padding:5px;
 }
 
-.total{background:#eff6ff!important}
-.internal{background:#ecfdf5!important}
-
-.badge{
-display:inline-block;
-background:#fef3c7;
-color:#92400e;
-padding:5px 9px;
-border-radius:20px;
-font-size:12px;
-font-weight:700
+.company-preview strong{
+  font-size:18px;
+  display:block;
 }
 
-.document-badge{
-display:inline-block;
-background:#dbeafe;
-color:#1e40af;
-padding:6px 11px;
-border-radius:20px;
-font-size:13px;
-font-weight:800;
-margin-bottom:12px
+.company-preview small{
+  color:#68778b;
 }
 
-.saved-item{
-border:1px solid #e5e7eb;
-border-radius:10px;
-padding:12px;
-margin-top:9px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px
+.profile-tag{
+  display:inline-block;
+  background:#dcfce7;
+  color:#13743f;
+  border-radius:20px;
+  padding:4px 8px;
+  font-size:10px;
+  font-weight:800;
+  margin-bottom:8px;
 }
 
-.small{font-size:12px;color:#64748b}
+/* BUTTONS */
 
-@media(max-width:700px){
-.grid{grid-template-columns:1fr}
-.item{grid-template-columns:1fr 1fr}
-.summary{grid-template-columns:1fr 1fr}
+.btn{
+  border:0;
+  border-radius:8px;
+  padding:10px 14px;
+  font-weight:800;
 }
 
-/* CUSTOMER PRINT / PDF */
+.btn-blue{background:#1769e0;color:#fff}
+.btn-green{background:#079669;color:#fff}
+.btn-purple{background:#7137e8;color:#fff}
+.btn-light{background:#edf2f7;color:#172235}
+.btn-red{background:#fee2e2;color:#b42332}
+.btn-outline{
+  background:#fff;
+  color:#1769e0;
+  border:1px solid #b8d3f6;
+}
+
+.btn-small{
+  padding:7px 10px;
+  font-size:12px;
+}
+
+/* DOCUMENT INFO */
+
+.doc-grid{
+  display:grid;
+  grid-template-columns:1fr 1.1fr 1fr .8fr .7fr .7fr;
+  gap:10px;
+}
+
+/* ITEMS */
+
+.table-wrap{overflow-x:auto}
+
+.items-table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:760px;
+}
+
+.items-table th{
+  background:#f5f8fc;
+  color:#59687e;
+  font-size:11px;
+  padding:8px;
+  text-align:left;
+  border-bottom:1px solid #dfe6ef;
+}
+
+.items-table td{
+  padding:7px;
+  border-bottom:1px solid #edf1f5;
+}
+
+.items-table input{
+  padding:8px;
+}
+
+.amount-cell{
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.private-head{
+  color:#0b8c65!important;
+}
+
+/* SUMMARY */
+
+.summary-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+.sum{
+  padding:13px;
+  border-radius:11px;
+  background:#eef5ff;
+}
+
+.sum.private{
+  background:#eafbf3;
+}
+
+.sum span{
+  color:#65758b;
+  font-size:11px;
+  display:block;
+}
+
+.sum strong{
+  display:block;
+  margin-top:5px;
+  font-size:17px;
+}
+
+.private-note{
+  color:#14805c;
+  font-size:11px;
+  font-weight:700;
+}
+
+/* TEMPLATES */
+
+.template-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.template{
+  border:2px solid #dfe6ef;
+  border-radius:10px;
+  padding:8px;
+  cursor:pointer;
+  background:#fff;
+}
+
+.template.selected{
+  border-color:#1769e0;
+  box-shadow:0 0 0 2px #dbeafe;
+}
+
+.template-preview{
+  height:90px;
+  border:1px solid #e2e8f0;
+  background:#fafcff;
+  position:relative;
+  overflow:hidden;
+  margin-bottom:6px;
+}
+
+.template-preview:before{
+  content:"";
+  display:block;
+  width:55%;
+  height:8px;
+  margin:10px;
+  background:#173c72;
+}
+
+.template-preview:after{
+  content:"";
+  display:block;
+  width:80%;
+  height:45px;
+  margin:10px;
+  border-top:5px solid #2d6fca;
+  border-bottom:12px solid #e8eff8;
+}
+
+.template strong{font-size:12px}
+
+/* SAVED */
+
+.saved-doc{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  border:1px solid #e1e8f0;
+  padding:11px;
+  border-radius:10px;
+  margin-top:8px;
+}
+
+.saved-doc small{
+  color:#6b7a90;
+  display:block;
+  margin-top:3px;
+}
+
+/* PRINT DOCUMENT */
+
+#printDocument{display:none}
+
+@media(max-width:900px){
+  .app{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .doc-grid{grid-template-columns:1fr 1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+}
+
+@media(max-width:600px){
+  .grid2,.grid3{grid-template-columns:1fr}
+  .doc-grid{grid-template-columns:1fr}
+  .template-grid{grid-template-columns:1fr 1fr 1fr}
+  .top-actions .optional{display:none}
+  .content{padding:10px}
+}
+
+/* ==========================
+   PROFESSIONAL A4 PRINT
+========================== */
 
 @media print{
 
-@page{
-size:A4;
-margin:8mm;
-}
+  @page{
+    size:A4;
+    margin:0;
+  }
 
-body{
-background:white;
-font-size:11px;
-}
+  body{
+    margin:0!important;
+    background:#fff!important;
+  }
 
-.no-print,
-.internal-only{
-display:none!important;
-}
+  .app{
+    display:none!important;
+  }
 
-header{
-background:white;
-color:#111827;
-padding:0 0 7px;
-border-bottom:2px solid #111827;
-}
+  #printDocument{
+    display:block!important;
+  }
 
-header h1{
-font-size:22px;
-margin:0;
-}
+  .pdf-page{
+    width:210mm;
+    min-height:297mm;
+    margin:0;
+    padding:15mm 15mm 12mm;
+    position:relative;
+    background:#fff;
+    color:#172235;
+    font-family:Arial,sans-serif;
+    overflow:hidden;
+  }
 
-header p{
-color:#555;
-font-size:10px;
-margin:2px 0;
-}
+  .pdf-accent{
+    position:absolute;
+    right:0;
+    top:0;
+    width:54mm;
+    height:28mm;
+    background:linear-gradient(135deg,#dcecff 0 30%,#1769e0 30% 65%,#0b2f63 65%);
+    clip-path:polygon(35% 0,100% 0,100% 100%,0 0);
+  }
 
-.container{
-max-width:none;
-padding:0;
-margin:0;
-}
+  .pdf-bottom-accent{
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:45mm;
+    height:20mm;
+    background:linear-gradient(45deg,#0b2f63,#1769e0);
+    clip-path:polygon(0 0,100% 100%,0 100%);
+  }
 
-.card{
-box-shadow:none;
-border:0;
-border-radius:0;
-padding:6px 0;
-margin:0 0 5px;
-page-break-inside:avoid;
-break-inside:avoid;
-}
+  .pdf-header{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    position:relative;
+    z-index:2;
+  }
 
-h2{
-font-size:15px;
-margin:0 0 5px;
-}
+  .pdf-company{
+    display:flex;
+    gap:12px;
+    max-width:58%;
+  }
 
-.grid{
-grid-template-columns:1fr 1fr;
-gap:3px 15px;
-}
+  .pdf-logo{
+    width:25mm;
+    height:25mm;
+    object-fit:contain;
+  }
 
-label{
-font-size:9px;
-margin:0 0 1px;
-color:#555;
-}
+  .pdf-company h1{
+    margin:0 0 3px;
+    color:#0b3d7a;
+    font-size:20px;
+  }
 
-input,
-select,
-textarea{
-border:0;
-padding:0;
-font-size:11px;
-border-radius:0;
-appearance:none;
--webkit-appearance:none;
-background:white;
-color:#111827;
-}
+  .pdf-company p{
+    margin:2px 0;
+    font-size:9px;
+    color:#43546b;
+  }
 
-textarea{
-min-height:22px;
-resize:none;
-}
+  .pdf-doc-title{
+    text-align:right;
+    padding-top:16mm;
+  }
 
-.item{
-grid-template-columns:2fr .4fr .8fr;
-gap:8px;
-margin-bottom:3px;
-align-items:start;
-}
+  .pdf-doc-title h2{
+    margin:0;
+    font-size:27px;
+    letter-spacing:.5px;
+    color:#15243a;
+  }
 
-.cost-column,
-.delete-column{
-display:none!important;
-}
+  .title-line{
+    width:30mm;
+    height:2px;
+    background:#1769e0;
+    margin:5px 0 8px auto;
+  }
 
-.summary{
-grid-template-columns:repeat(4,1fr);
-gap:5px;
-}
+  .pdf-meta{
+    display:grid;
+    grid-template-columns:auto auto;
+    gap:3px 12px;
+    font-size:9px;
+    text-align:left;
+  }
 
-.summary div{
-padding:6px;
-border:1px solid #e5e7eb;
-}
+  .pdf-meta b{text-align:right}
 
-.summary span{
-font-size:8px;
-}
+  .pdf-info-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:12mm;
+  }
 
-.summary strong{
-font-size:13px;
-margin-top:2px;
-}
+  .pdf-info-box{
+    background:#f2f7fd;
+    border-radius:8px;
+    padding:10px;
+    min-height:25mm;
+  }
 
-.document-badge{
-font-size:10px;
-padding:3px 7px;
-margin-bottom:4px;
-}
+  .pdf-info-box h3{
+    color:#1769e0;
+    font-size:10px;
+    margin:0 0 5px;
+  }
 
+  .pdf-info-box strong{
+    display:block;
+    font-size:11px;
+    margin-bottom:3px;
+  }
+
+  .pdf-info-box p{
+    margin:2px 0;
+    font-size:9px;
+    line-height:1.35;
+  }
+
+  .pdf-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10mm;
+    font-size:9px;
+  }
+
+  .pdf-table th{
+    background:#123a6c;
+    color:white;
+    padding:7px;
+    text-align:left;
+  }
+
+  .pdf-table td{
+    padding:7px;
+    border-bottom:1px solid #dce4ed;
+  }
+
+  .pdf-table th:nth-child(n+2),
+  .pdf-table td:nth-child(n+2){
+    text-align:right;
+  }
+
+  .pdf-totals{
+    width:75mm;
+    margin:6px 0 0 auto;
+    border-collapse:collapse;
+    font-size:9px;
+  }
+
+  .pdf-totals td{
+    padding:5px 7px;
+    border-bottom:1px solid #e1e7ef;
+  }
+
+  .pdf-totals td:last-child{text-align:right}
+
+  .pdf-grand td{
+    background:#dcecff;
+    color:#0c58bc;
+    font-weight:900;
+    font-size:12px;
+    padding:8px;
+  }
+
+  .pdf-notes{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    margin-top:12mm;
+  }
+
+  .pdf-notes h3{
+    font-size:10px;
+    color:#1769e0;
+    margin:0 0 4px;
+  }
+
+  .pdf-notes p{
+    font-size:9px;
+    line-height:1.4;
+    margin:0;
+    white-space:pre-wrap;
+  }
+
+  .thankyou{
+    margin-top:11mm;
+    background:#eef6ff;
+    border-radius:8px;
+    text-align:center;
+    padding:10px;
+    color:#0b57b7;
+    font-weight:900;
+    font-size:12px;
+  }
+
+  .thankyou small{
+    display:block;
+    color:#50647e;
+    font-weight:400;
+    margin-top:3px;
+  }
+
+  .pdf-footer{
+    position:absolute;
+    left:15mm;
+    right:15mm;
+    bottom:9mm;
+    display:flex;
+    justify-content:space-between;
+    font-size:7.5px;
+    color:#62728a;
+    border-top:1px solid #dfe6ef;
+    padding-top:4px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<header>
-<h1>QuoteFlow</h1>
-<p>Fast quotations. Clear profits.</p>
-</header>
+<div class="app">
 
-<div class="container">
+<aside class="sidebar">
+  <div class="brand"><span>Q</span>uoteFlow</div>
+  <div class="tagline">Fast quotations. Clear profits.</div>
 
-<div class="card">
-<span id="docBadge" class="document-badge">QUOTATION</span>
-<h2 id="docHeading">Quotation Details</h2>
+  <button class="navbtn active">＋ New Quote</button>
+  <button class="navbtn" onclick="scrollToSection('summarySection')">▦ Dashboard</button>
+  <button class="navbtn" onclick="scrollToSection('savedSection')">▤ Saved Documents</button>
+  <button class="navbtn" onclick="scrollToSection('profileSection')">▣ Business Profile</button>
+  <button class="navbtn" onclick="scrollToSection('templatesSection')">◫ Templates</button>
 
-<div class="grid">
+  <div class="probox">
+    <strong>♛ QuoteFlow Pro</strong>
+    <small>Professional documents, business branding and profit intelligence.</small>
+  </div>
+</aside>
 
-<div>
-<label>Business Name</label>
-<input id="business" placeholder="Your company">
+<main class="main">
+
+<div class="topbar">
+  <div>
+    <h1>Create New <span id="topDocName">Quotation</span>
+      <span class="status">Draft</span>
+    </h1>
+  </div>
+
+  <div class="top-actions">
+    <button class="btn btn-outline optional" onclick="previewPDF()">▣ Preview PDF</button>
+    <button class="btn btn-green" onclick="saveDocument()">Save</button>
+    <button class="btn btn-purple" onclick="convertDocument()">Convert to <span id="convertLabel">Invoice</span></button>
+  </div>
+</div>
+
+<div class="content">
+
+<section class="card" id="profileSection">
+<h2 class="card-title">▣ Business Profile</h2>
+
+<div class="grid2">
+
+<div class="profile-box">
+
+<span class="profile-tag">✓ Saved Business Profile</span>
+
+<div class="profile-head">
+  <div class="logo-box">
+    <img id="logoPreview" style="display:none">
+    <div id="logoPlaceholder" class="logo-placeholder">YOUR<br>LOGO</div>
+  </div>
+
+  <div class="company-preview">
+    <strong id="companyPreviewName">Your Business</strong>
+    <small id="companyPreviewTagline">Professional services</small>
+  </div>
+</div>
+
+<div class="field">
+<label>Upload Company Logo</label>
+<input id="logoInput" type="file" accept="image/*">
+</div>
+
+<button class="btn btn-blue btn-small" onclick="saveBusinessProfile()">Save Business Profile</button>
+
 </div>
 
 <div>
-<label>Customer Name</label>
-<input id="customer" placeholder="Customer">
+
+<div class="grid2">
+<div class="field">
+<label>Company Name</label>
+<input id="businessName" placeholder="Sigma Services">
+</div>
+
+<div class="field">
+<label>Tagline / Business Activity</label>
+<input id="businessTagline" placeholder="Technical Services & Facility Management">
+</div>
+</div>
+
+<div class="grid2">
+<div class="field">
+<label>Phone</label>
+<input id="businessPhone" placeholder="+971 50 123 4567">
+</div>
+
+<div class="field">
+<label>Email</label>
+<input id="businessEmail" type="email" placeholder="info@company.com">
+</div>
+</div>
+
+<div class="grid2">
+<div class="field">
+<label>Website</label>
+<input id="businessWebsite" placeholder="www.company.com">
+</div>
+
+<div class="field">
+<label>TRN / VAT Number</label>
+<input id="businessTRN" placeholder="100123456789003">
+</div>
+</div>
+
+<div class="field">
+<label>Business Address</label>
+<textarea id="businessAddress" placeholder="Office, Building, City, Country"></textarea>
+</div>
+
+</div>
+</div>
+</section>
+
+
+<section class="card">
+<h2 class="card-title">♙ Customer Details</h2>
+
+<div class="grid2">
+
+<div>
+<div class="field">
+<label>Customer / Company Name</label>
+<input id="customerName" placeholder="ABC Company">
+</div>
+
+<div class="field">
+<label>Contact Person</label>
+<input id="contactPerson" placeholder="John Doe">
+</div>
+
+<div class="field">
+<label>Customer Address</label>
+<textarea id="customerAddress" placeholder="Customer address"></textarea>
+</div>
 </div>
 
 <div>
-<label>Business Phone</label>
-<input id="phone" placeholder="+971...">
+<div class="field">
+<label>Email</label>
+<input id="customerEmail" type="email" placeholder="customer@abc.com">
+</div>
+
+<div class="field">
+<label>Phone</label>
+<input id="customerPhone" placeholder="+971...">
+</div>
+
+<div class="field">
+<label>Project / Reference</label>
+<input id="projectRef" placeholder="Inspection Service / PO / RFQ reference">
+</div>
+</div>
+
+</div>
+</section>
+
+
+<section class="card">
+<h2 class="card-title">▤ Document Information</h2>
+
+<div class="doc-grid">
+
+<div>
+<label>Type</label>
+<select id="documentType" onchange="changeTypeFromSelect()">
+<option value="quotation">Quotation</option>
+<option value="invoice">Invoice</option>
+</select>
 </div>
 
 <div>
-<label>Customer Email</label>
-<input id="email" type="email" placeholder="customer@email.com">
-</div>
-
-<div>
-<label id="numberLabel">Quotation No.</label>
-<input id="quoteNo">
+<label>Document No.</label>
+<input id="documentNo">
 </div>
 
 <div>
 <label>Date</label>
-<input id="date" type="date">
+<input id="documentDate" type="date">
 </div>
 
 <div>
@@ -354,680 +909,1126 @@ margin-bottom:4px;
 <input id="vat" type="number" value="5" min="0" oninput="calculate()">
 </div>
 
-</div>
-</div>
-
-
-<div class="card">
-
-<h2 id="itemsHeading">Quotation Items</h2>
-
-<div id="items"></div>
-
-<button class="secondary no-print" onclick="addItem()">
-+ Add Item
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>Terms</h2>
-
-<div class="grid">
-
 <div>
 <label>Discount %</label>
-<input id="discount" type="number" value="0" min="0" max="100"
-oninput="calculate()">
+<input id="discount" type="number" value="0" min="0" max="100" oninput="calculate()">
+</div>
+
+</div>
+</section>
+
+
+<section class="card">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<h2 class="card-title">▦ Items</h2>
+<button class="btn btn-blue btn-small" onclick="addItem()">＋ Add Item</button>
+</div>
+
+<div class="table-wrap">
+<table class="items-table">
+<thead>
+<tr>
+<th>#</th>
+<th>Description</th>
+<th>Qty</th>
+<th>Unit Price</th>
+<th class="private-head">Cost 🔒</th>
+<th>Amount</th>
+<th></th>
+</tr>
+</thead>
+<tbody id="itemsBody"></tbody>
+</table>
+</div>
+</section>
+
+
+<section class="card">
+<h2 class="card-title">▧ Additional Information</h2>
+
+<div class="grid2">
+<div>
+<label>Payment Terms / Validity</label>
+<textarea id="paymentTerms" placeholder="Valid for 30 days from the date of this quotation."></textarea>
 </div>
 
 <div>
-<label>Validity / Payment Terms</label>
-<input id="terms" placeholder="Example: Valid 30 days">
-</div>
-
-<div style="grid-column:1/-1">
 <label>Notes</label>
-<textarea id="notes"
-placeholder="Delivery, scope, payment or other notes..."></textarea>
-</div>
-
+<textarea id="notes" placeholder="Thank you for considering our services."></textarea>
 </div>
 </div>
+</section>
 
 
-<div class="card">
+<section class="card" id="summarySection">
+<h2 class="card-title">◉ Financial Summary</h2>
 
-<h2>Summary</h2>
+<div class="summary-grid">
 
-<div class="summary">
-
-<div>
-<span>Subtotal</span>
-<strong id="subtotal">AED 0.00</strong>
-</div>
-
-<div>
-<span>Discount</span>
-<strong id="discountAmount">AED 0.00</strong>
-</div>
-
-<div>
-<span>VAT</span>
-<strong id="vatAmount">AED 0.00</strong>
-</div>
-
-<div class="total">
-<span>Customer Total</span>
-<strong id="total">AED 0.00</strong>
-</div>
-
-<div class="internal internal-only">
+<div class="sum private">
 <span>Total Cost — Private</span>
-<strong id="cost">AED 0.00</strong>
+<strong id="sumCost">AED 0.00</strong>
 </div>
 
-<div class="internal internal-only">
+<div class="sum private">
 <span>Profit — Private</span>
-<strong id="profit">AED 0.00</strong>
+<strong id="sumProfit">AED 0.00</strong>
 </div>
 
-<div class="internal internal-only">
+<div class="sum private">
 <span>Profit Margin — Private</span>
-<strong id="margin">0%</strong>
+<strong id="sumMargin">0.0%</strong>
+</div>
+
+<div class="sum">
+<span>Customer Total</span>
+<strong id="sumTotal">AED 0.00</strong>
+</div>
+
+<div class="sum">
+<span>Subtotal</span>
+<strong id="sumSubtotal">AED 0.00</strong>
+</div>
+
+<div class="sum">
+<span>Discount</span>
+<strong id="sumDiscount">AED 0.00</strong>
+</div>
+
+<div class="sum">
+<span>VAT</span>
+<strong id="sumVAT">AED 0.00</strong>
 </div>
 
 </div>
 
-<p class="internal-only">
-<span class="badge">
-Private cost and profit figures are never printed on the customer document
-</span>
-</p>
+<p class="private-note">🔒 Cost, profit and margin are private and never appear on the customer's PDF.</p>
+</section>
+
+
+<section class="card" id="templatesSection">
+<h2 class="card-title">▣ Choose PDF Template</h2>
+
+<div class="template-grid">
+
+<div class="template selected" data-template="modern" onclick="selectTemplate(this)">
+<div class="template-preview"></div>
+<strong>Modern</strong>
+</div>
+
+<div class="template" data-template="corporate" onclick="selectTemplate(this)">
+<div class="template-preview"></div>
+<strong>Corporate</strong>
+</div>
+
+<div class="template" data-template="minimal" onclick="selectTemplate(this)">
+<div class="template-preview"></div>
+<strong>Minimal</strong>
+</div>
+
+</div>
+</section>
+
+
+<section class="card">
+<h2 class="card-title">⚡ Actions</h2>
+
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button class="btn btn-blue" onclick="previewPDF()">▣ Generate PDF / Print</button>
+<button class="btn btn-green" onclick="saveDocument()">Save Document</button>
+<button class="btn btn-light" onclick="duplicateDocument()">Duplicate</button>
+<button class="btn btn-light" onclick="newDocument()">New Document</button>
+</div>
+</section>
+
+
+<section class="card" id="savedSection">
+<h2 class="card-title">▤ Saved Documents</h2>
+<div id="savedDocuments">
+<span style="color:#718096;font-size:12px">No saved documents yet.</span>
+</div>
+</section>
+
+</div>
+</main>
+</div>
+
+
+<!-- CUSTOMER PDF -->
+
+<div id="printDocument">
+<div class="pdf-page">
+
+<div class="pdf-accent"></div>
+<div class="pdf-bottom-accent"></div>
+
+<div class="pdf-header">
+
+<div class="pdf-company">
+<img id="pdfLogo" class="pdf-logo" style="display:none">
+
+<div>
+<h1 id="pdfBusinessName">Your Business</h1>
+<p id="pdfTagline"></p>
+<p id="pdfBusinessAddress"></p>
+<p id="pdfBusinessPhone"></p>
+<p id="pdfBusinessEmail"></p>
+<p id="pdfBusinessWebsite"></p>
+<p id="pdfTRN"></p>
+</div>
+</div>
+
+<div class="pdf-doc-title">
+<h2 id="pdfDocumentTitle">QUOTATION</h2>
+<div class="title-line"></div>
+
+<div class="pdf-meta">
+<span>Document No.</span><b id="pdfDocumentNo"></b>
+<span>Date</span><b id="pdfDate"></b>
+</div>
+</div>
 
 </div>
 
 
-<div class="card no-print">
+<div class="pdf-info-grid">
 
-<div class="actions">
+<div class="pdf-info-box">
+<h3>BILL TO</h3>
+<strong id="pdfCustomer"></strong>
+<p id="pdfContact"></p>
+<p id="pdfCustomerAddress"></p>
+<p id="pdfCustomerEmail"></p>
+<p id="pdfCustomerPhone"></p>
+</div>
 
-<button class="primary" onclick="window.print()">
-Customer PDF / Print
-</button>
-
-<button class="success" onclick="saveDocument()">
-Save
-</button>
-
-<button class="invoice-btn" onclick="convertDocument()">
-<span id="convertText">Convert to Invoice</span>
-</button>
-
-<button class="secondary" onclick="newDocument()">
-New
-</button>
-
+<div class="pdf-info-box">
+<h3>PROJECT / REFERENCE</h3>
+<strong id="pdfProject"></strong>
+<p id="pdfDocTypeText"></p>
 </div>
 
 </div>
 
 
-<div class="card no-print">
+<table class="pdf-table">
+<thead>
+<tr>
+<th>#</th>
+<th>Description</th>
+<th>Qty</th>
+<th>Unit Price</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody id="pdfItems"></tbody>
+</table>
 
-<h2>Saved Documents</h2>
 
-<div id="savedQuotes">
-<p class="small">No saved documents yet.</p>
+<table class="pdf-totals">
+<tr>
+<td>Subtotal</td>
+<td id="pdfSubtotal"></td>
+</tr>
+<tr>
+<td id="pdfDiscountLabel">Discount</td>
+<td id="pdfDiscount"></td>
+</tr>
+<tr>
+<td id="pdfVATLabel">VAT</td>
+<td id="pdfVAT"></td>
+</tr>
+<tr class="pdf-grand">
+<td>TOTAL</td>
+<td id="pdfTotal"></td>
+</tr>
+</table>
+
+
+<div class="pdf-notes">
+
+<div>
+<h3>PAYMENT TERMS / VALIDITY</h3>
+<p id="pdfTerms"></p>
+</div>
+
+<div>
+<h3>NOTES</h3>
+<p id="pdfNotes"></p>
 </div>
 
 </div>
 
+
+<div class="thankyou">
+Thank you for your business!
+<small>We appreciate the opportunity to serve you.</small>
 </div>
 
 
+<div class="pdf-footer">
+<span id="pdfFooterCompany"></span>
+<span id="pdfFooterWebsite"></span>
+</div>
+
+</div>
+</div>
 <script>
+let currentType = "quotation";
+let selectedTemplate = "modern";
+let logoData = "";
 
-let documentType="quotation";
-
+/* ---------- BASIC HELPERS ---------- */
 
 function localDate(){
-
-const d=new Date();
-
-const y=d.getFullYear();
-const m=String(d.getMonth()+1).padStart(2,"0");
-const day=String(d.getDate()).padStart(2,"0");
-
-return `${y}-${m}-${day}`;
-
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,"0");
+  const day = String(d.getDate()).padStart(2,"0");
+  return `${y}-${m}-${day}`;
 }
-
 
 function generateNumber(type){
-
-const prefix=type==="invoice" ? "INV-" : "Q-";
-
-return prefix+Date.now().toString().slice(-6);
-
+  const prefix = type === "invoice" ? "INV-" : "Q-";
+  return prefix + Date.now().toString().slice(-6);
 }
-
-
-document.getElementById("date").value=localDate();
-document.getElementById("quoteNo").value=generateNumber("quotation");
-
-
-function setDocumentType(type){
-
-documentType=type;
-
-const invoice=type==="invoice";
-
-document.getElementById("docBadge").textContent=
-invoice ? "INVOICE" : "QUOTATION";
-
-document.getElementById("docHeading").textContent=
-invoice ? "Invoice Details" : "Quotation Details";
-
-document.getElementById("itemsHeading").textContent=
-invoice ? "Invoice Items" : "Quotation Items";
-
-document.getElementById("numberLabel").textContent=
-invoice ? "Invoice No." : "Quotation No.";
-
-document.getElementById("convertText").textContent=
-invoice ? "Convert to Quotation" : "Convert to Invoice";
-
-}
-
-
-function addItem(desc="",qty=1,price=0,cost=0){
-
-const row=document.createElement("div");
-
-row.className="item";
-
-row.innerHTML=`
-
-<div>
-<label>Description</label>
-<input class="desc" placeholder="Service or product">
-</div>
-
-<div>
-<label>Qty</label>
-<input class="qty"
-type="number"
-value="${qty}"
-min="0"
-step="1"
-oninput="calculate()">
-</div>
-
-<div>
-<label>Price</label>
-<input class="price"
-type="number"
-value="${price}"
-min="0"
-step="0.01"
-oninput="calculate()">
-</div>
-
-<div class="cost-column internal-only">
-<label>Cost</label>
-<input class="itemCost"
-type="number"
-value="${cost}"
-min="0"
-step="0.01"
-oninput="calculate()">
-</div>
-
-<button class="danger delete-column no-print"
-onclick="removeItem(this)">×</button>
-
-`;
-
-row.querySelector(".desc").value=desc;
-
-document.getElementById("items").appendChild(row);
-
-calculate();
-
-}
-
-
-function removeItem(button){
-
-const rows=document.querySelectorAll(".item");
-
-if(rows.length<=1){
-alert("At least one item is required.");
-return;
-}
-
-button.parentElement.remove();
-
-calculate();
-
-}
-
-
-function calculate(){
-
-let subtotal=0;
-let totalCost=0;
-
-document.querySelectorAll(".item").forEach(row=>{
-
-const qty=
-parseFloat(row.querySelector(".qty").value)||0;
-
-const price=
-parseFloat(row.querySelector(".price").value)||0;
-
-const cost=
-parseFloat(row.querySelector(".itemCost")?.value)||0;
-
-subtotal+=qty*price;
-totalCost+=qty*cost;
-
-});
-
-const discountRate=
-Math.max(0,
-Math.min(100,
-parseFloat(document.getElementById("discount").value)||0));
-
-const discountAmount=
-subtotal*(discountRate/100);
-
-const taxable=
-subtotal-discountAmount;
-
-const vatRate=
-Math.max(0,
-parseFloat(document.getElementById("vat").value)||0);
-
-const vatAmount=
-taxable*(vatRate/100);
-
-const total=
-taxable+vatAmount;
-
-const profit=
-taxable-totalCost;
-
-const margin=
-taxable>0 ? (profit/taxable)*100 : 0;
-
-const currency=
-document.getElementById("currency").value;
-
 
 function money(value){
-return currency+" "+value.toFixed(2);
+  const cur = document.getElementById("currency").value || "AED";
+  return `${cur} ${Number(value || 0).toLocaleString(undefined,{
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+  })}`;
 }
 
-
-document.getElementById("subtotal").textContent=
-money(subtotal);
-
-document.getElementById("discountAmount").textContent=
-money(discountAmount);
-
-document.getElementById("vatAmount").textContent=
-money(vatAmount);
-
-document.getElementById("total").textContent=
-money(total);
-
-document.getElementById("cost").textContent=
-money(totalCost);
-
-document.getElementById("profit").textContent=
-money(profit);
-
-document.getElementById("margin").textContent=
-margin.toFixed(1)+"%";
-
+function escapeHTML(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
 
+function scrollToSection(id){
+  document.getElementById(id)?.scrollIntoView({behavior:"smooth"});
+}
 
-function getDocumentData(){
+/* ---------- LOGO ---------- */
 
-const items=[];
+document.getElementById("logoInput").addEventListener("change", function(e){
+  const file = e.target.files?.[0];
+  if(!file) return;
 
-document.querySelectorAll(".item").forEach(row=>{
+  if(!file.type.startsWith("image/")){
+    alert("Please select an image file.");
+    return;
+  }
 
-items.push({
+  if(file.size > 2 * 1024 * 1024){
+    alert("For this version, please use a logo smaller than 2 MB.");
+    return;
+  }
 
-desc:row.querySelector(".desc").value,
+  const reader = new FileReader();
 
-qty:row.querySelector(".qty").value,
+  reader.onload = function(event){
+    logoData = event.target.result;
+    updateLogoPreview();
+  };
 
-price:row.querySelector(".price").value,
-
-cost:row.querySelector(".itemCost")?.value||0
-
+  reader.readAsDataURL(file);
 });
 
+function updateLogoPreview(){
+  const img = document.getElementById("logoPreview");
+  const placeholder = document.getElementById("logoPlaceholder");
+
+  if(logoData){
+    img.src = logoData;
+    img.style.display = "block";
+    placeholder.style.display = "none";
+  }else{
+    img.removeAttribute("src");
+    img.style.display = "none";
+    placeholder.style.display = "block";
+  }
+}
+
+/* ---------- BUSINESS PROFILE ---------- */
+
+function businessProfile(){
+  return {
+    name:document.getElementById("businessName").value.trim(),
+    tagline:document.getElementById("businessTagline").value.trim(),
+    phone:document.getElementById("businessPhone").value.trim(),
+    email:document.getElementById("businessEmail").value.trim(),
+    website:document.getElementById("businessWebsite").value.trim(),
+    trn:document.getElementById("businessTRN").value.trim(),
+    address:document.getElementById("businessAddress").value.trim(),
+    logo:logoData
+  };
+}
+
+function updateBusinessPreview(){
+  const p = businessProfile();
+
+  document.getElementById("companyPreviewName").textContent =
+    p.name || "Your Business";
+
+  document.getElementById("companyPreviewTagline").textContent =
+    p.tagline || "Professional services";
+}
+
+[
+ "businessName",
+ "businessTagline",
+ "businessPhone",
+ "businessEmail",
+ "businessWebsite",
+ "businessTRN",
+ "businessAddress"
+].forEach(id=>{
+  document.getElementById(id).addEventListener("input",updateBusinessPreview);
 });
 
-return{
+function saveBusinessProfile(){
+  const p = businessProfile();
 
-type:documentType,
+  if(!p.name){
+    alert("Please enter your company name.");
+    return;
+  }
 
-business:document.getElementById("business").value,
-
-customer:document.getElementById("customer").value,
-
-phone:document.getElementById("phone").value,
-
-email:document.getElementById("email").value,
-
-number:document.getElementById("quoteNo").value,
-
-date:document.getElementById("date").value,
-
-currency:document.getElementById("currency").value,
-
-vat:document.getElementById("vat").value,
-
-discount:document.getElementById("discount").value,
-
-terms:document.getElementById("terms").value,
-
-notes:document.getElementById("notes").value,
-
-items
-
-};
-
+  try{
+    localStorage.setItem("quoteflow-business",JSON.stringify(p));
+    updateBusinessPreview();
+    alert("Business profile saved.");
+  }catch(err){
+    alert("The logo may be too large for browser storage. Try a smaller logo.");
+  }
 }
 
+function loadBusinessProfile(){
+  try{
+    const p = JSON.parse(localStorage.getItem("quoteflow-business") || "null");
+    if(!p) return;
 
-function saveDocument(){
+    document.getElementById("businessName").value = p.name || "";
+    document.getElementById("businessTagline").value = p.tagline || "";
+    document.getElementById("businessPhone").value = p.phone || "";
+    document.getElementById("businessEmail").value = p.email || "";
+    document.getElementById("businessWebsite").value = p.website || "";
+    document.getElementById("businessTRN").value = p.trn || "";
+    document.getElementById("businessAddress").value = p.address || "";
 
-const data=getDocumentData();
+    logoData = p.logo || "";
 
-if(!data.customer.trim()){
+    updateLogoPreview();
+    updateBusinessPreview();
 
-alert("Please enter customer name.");
-
-return;
-
+  }catch(err){
+    console.warn("Business profile could not be loaded.",err);
+  }
 }
 
-if(!data.items.some(i=>i.desc.trim())){
+/* ---------- DOCUMENT TYPE ---------- */
 
-alert("Please enter at least one item description.");
+function setDocumentType(type, generateNewNumber=false){
+  currentType = type === "invoice" ? "invoice" : "quotation";
 
-return;
+  document.getElementById("documentType").value = currentType;
 
+  const invoice = currentType === "invoice";
+
+  document.getElementById("topDocName").textContent =
+    invoice ? "Invoice" : "Quotation";
+
+  document.getElementById("convertLabel").textContent =
+    invoice ? "Quotation" : "Invoice";
+
+  if(generateNewNumber){
+    document.getElementById("documentNo").value =
+      generateNumber(currentType);
+  }
 }
 
-let saved=
-JSON.parse(localStorage.getItem("quoteflow-documents")||"[]");
-
-const existing=
-saved.findIndex(x=>x.number===data.number);
-
-if(existing>=0){
-
-saved[existing]=data;
-
-}else{
-
-saved.unshift(data);
-
+function changeTypeFromSelect(){
+  setDocumentType(
+    document.getElementById("documentType").value,
+    true
+  );
 }
-
-localStorage.setItem(
-"quoteflow-documents",
-JSON.stringify(saved)
-);
-
-renderSaved();
-
-alert(
-documentType==="invoice"
-? "Invoice saved."
-: "Quotation saved."
-);
-
-}
-
-
-function renderSaved(){
-
-const box=document.getElementById("savedQuotes");
-
-const saved=
-JSON.parse(localStorage.getItem("quoteflow-documents")||"[]");
-
-if(!saved.length){
-
-box.innerHTML=
-'<p class="small">No saved documents yet.</p>';
-
-return;
-
-}
-
-box.innerHTML="";
-
-saved.forEach((doc,index)=>{
-
-const row=document.createElement("div");
-
-row.className="saved-item";
-
-
-const info=document.createElement("div");
-
-const title=document.createElement("strong");
-
-title.textContent=
-(doc.type==="invoice" ? "Invoice — " : "Quotation — ")
-+(doc.customer||"Unnamed customer");
-
-const meta=document.createElement("div");
-
-meta.className="small";
-
-meta.textContent=
-(doc.number||"")+" • "+(doc.date||"");
-
-
-info.appendChild(title);
-info.appendChild(meta);
-
-
-const controls=document.createElement("div");
-
-
-const open=document.createElement("button");
-
-open.className="secondary";
-
-open.textContent="Open";
-
-open.onclick=()=>loadDocument(index);
-
-
-const del=document.createElement("button");
-
-del.className="danger";
-
-del.style.marginLeft="5px";
-
-del.textContent="Delete";
-
-del.onclick=()=>deleteDocument(index);
-
-
-controls.appendChild(open);
-controls.appendChild(del);
-
-row.appendChild(info);
-row.appendChild(controls);
-
-box.appendChild(row);
-
-});
-
-}
-
-
-function loadDocument(index){
-
-const saved=
-JSON.parse(localStorage.getItem("quoteflow-documents")||"[]");
-
-const doc=saved[index];
-
-if(!doc)return;
-
-setDocumentType(doc.type||"quotation");
-
-document.getElementById("business").value=
-doc.business||"";
-
-document.getElementById("customer").value=
-doc.customer||"";
-
-document.getElementById("phone").value=
-doc.phone||"";
-
-document.getElementById("email").value=
-doc.email||"";
-
-document.getElementById("quoteNo").value=
-doc.number||"";
-
-document.getElementById("date").value=
-doc.date||localDate();
-
-document.getElementById("currency").value=
-doc.currency||"AED";
-
-document.getElementById("vat").value=
-doc.vat??5;
-
-document.getElementById("discount").value=
-doc.discount??0;
-
-document.getElementById("terms").value=
-doc.terms||"";
-
-document.getElementById("notes").value=
-doc.notes||"";
-
-document.getElementById("items").innerHTML="";
-
-(doc.items||[]).forEach(item=>
-addItem(
-item.desc,
-item.qty,
-item.price,
-item.cost
-)
-);
-
-if(!(doc.items||[]).length){
-addItem();
-}
-
-calculate();
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-}
-
-
-function deleteDocument(index){
-
-if(!confirm("Delete this document?")){
-return;
-}
-
-let saved=
-JSON.parse(localStorage.getItem("quoteflow-documents")||"[]");
-
-saved.splice(index,1);
-
-localStorage.setItem(
-"quoteflow-documents",
-JSON.stringify(saved)
-);
-
-renderSaved();
-
-}
-
 
 function convertDocument(){
+  setDocumentType(
+    currentType === "quotation" ? "invoice" : "quotation",
+    true
+  );
 
-const target=
-documentType==="quotation"
-? "invoice"
-: "quotation";
-
-setDocumentType(target);
-
-document.getElementById("quoteNo").value=
-generateNumber(target);
-
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
+/* ---------- ITEMS ---------- */
+
+function addItem(description="",qty=1,price=0,cost=0){
+  const body = document.getElementById("itemsBody");
+  const tr = document.createElement("tr");
+
+  tr.innerHTML = `
+    <td class="row-number"></td>
+
+    <td>
+      <input class="item-description"
+      placeholder="Service or product">
+    </td>
+
+    <td>
+      <input class="item-qty"
+      type="number"
+      min="0"
+      step="0.01"
+      value="${escapeHTML(qty)}"
+      oninput="calculate()">
+    </td>
+
+    <td>
+      <input class="item-price"
+      type="number"
+      min="0"
+      step="0.01"
+      value="${escapeHTML(price)}"
+      oninput="calculate()">
+    </td>
+
+    <td>
+      <input class="item-cost"
+      type="number"
+      min="0"
+      step="0.01"
+      value="${escapeHTML(cost)}"
+      oninput="calculate()">
+    </td>
+
+    <td class="amount-cell">0.00</td>
+
+    <td>
+      <button class="btn btn-red btn-small"
+      onclick="removeItem(this)">×</button>
+    </td>
+  `;
+
+  tr.querySelector(".item-description").value = description;
+
+  body.appendChild(tr);
+
+  renumberItems();
+  calculate();
+}
+
+function removeItem(button){
+  const rows = document.querySelectorAll("#itemsBody tr");
+
+  if(rows.length <= 1){
+    alert("At least one item is required.");
+    return;
+  }
+
+  button.closest("tr").remove();
+
+  renumberItems();
+  calculate();
+}
+
+function renumberItems(){
+  document.querySelectorAll("#itemsBody tr").forEach((row,index)=>{
+    row.querySelector(".row-number").textContent = index+1;
+  });
+}
+
+function getItems(){
+  return [...document.querySelectorAll("#itemsBody tr")].map(row=>({
+    description:row.querySelector(".item-description").value.trim(),
+    qty:parseFloat(row.querySelector(".item-qty").value)||0,
+    price:parseFloat(row.querySelector(".item-price").value)||0,
+    cost:parseFloat(row.querySelector(".item-cost").value)||0
+  }));
+}
+
+/* ---------- CALCULATIONS ---------- */
+
+function getFinancials(){
+  let subtotal = 0;
+  let totalCost = 0;
+
+  document.querySelectorAll("#itemsBody tr").forEach(row=>{
+    const qty = parseFloat(row.querySelector(".item-qty").value)||0;
+    const price = parseFloat(row.querySelector(".item-price").value)||0;
+    const cost = parseFloat(row.querySelector(".item-cost").value)||0;
+
+    const amount = qty * price;
+
+    subtotal += amount;
+    totalCost += qty * cost;
+
+    row.querySelector(".amount-cell").textContent =
+      amount.toLocaleString(undefined,{
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      });
+  });
+
+  let discountRate =
+    parseFloat(document.getElementById("discount").value)||0;
+
+  discountRate = Math.max(0,Math.min(100,discountRate));
+
+  const discountAmount = subtotal * discountRate / 100;
+  const taxable = subtotal - discountAmount;
+
+  let vatRate =
+    parseFloat(document.getElementById("vat").value)||0;
+
+  vatRate = Math.max(0,vatRate);
+
+  const vatAmount = taxable * vatRate / 100;
+  const total = taxable + vatAmount;
+
+  const profit = taxable - totalCost;
+  const margin = taxable > 0 ? profit / taxable * 100 : 0;
+
+  return {
+    subtotal,
+    totalCost,
+    discountRate,
+    discountAmount,
+    taxable,
+    vatRate,
+    vatAmount,
+    total,
+    profit,
+    margin
+  };
+}
+
+function calculate(){
+  const f = getFinancials();
+
+  document.getElementById("sumCost").textContent = money(f.totalCost);
+  document.getElementById("sumProfit").textContent = money(f.profit);
+  document.getElementById("sumMargin").textContent = f.margin.toFixed(1)+"%";
+
+  document.getElementById("sumSubtotal").textContent = money(f.subtotal);
+  document.getElementById("sumDiscount").textContent = money(f.discountAmount);
+  document.getElementById("sumVAT").textContent = money(f.vatAmount);
+  document.getElementById("sumTotal").textContent = money(f.total);
+}
+
+/* ---------- TEMPLATE ---------- */
+
+function selectTemplate(el){
+  document.querySelectorAll(".template").forEach(x=>
+    x.classList.remove("selected")
+  );
+
+  el.classList.add("selected");
+  selectedTemplate = el.dataset.template || "modern";
+}
+
+function applyPrintTemplate(){
+  const page = document.querySelector(".pdf-page");
+
+  page.style.fontFamily = "Arial,sans-serif";
+
+  const title = document.querySelector(".pdf-doc-title h2");
+  const accent = document.querySelector(".pdf-accent");
+  const bottomAccent = document.querySelector(".pdf-bottom-accent");
+
+  if(selectedTemplate === "corporate"){
+    title.style.letterSpacing = "1px";
+    accent.style.opacity = "1";
+    bottomAccent.style.opacity = "1";
+    page.style.fontFamily = "Georgia,Arial,sans-serif";
+  }
+  else if(selectedTemplate === "minimal"){
+    accent.style.opacity = "0";
+    bottomAccent.style.opacity = "0";
+    title.style.letterSpacing = "2px";
+  }
+  else{
+    accent.style.opacity = "1";
+    bottomAccent.style.opacity = "1";
+    title.style.letterSpacing = ".5px";
+  }
+}
+
+/* ---------- DOCUMENT DATA ---------- */
+
+function getDocumentData(){
+  return {
+    id:document.getElementById("documentNo").value.trim(),
+    type:currentType,
+    date:document.getElementById("documentDate").value,
+    currency:document.getElementById("currency").value,
+    vat:parseFloat(document.getElementById("vat").value)||0,
+    discount:parseFloat(document.getElementById("discount").value)||0,
+
+    customerName:document.getElementById("customerName").value.trim(),
+    contactPerson:document.getElementById("contactPerson").value.trim(),
+    customerAddress:document.getElementById("customerAddress").value.trim(),
+    customerEmail:document.getElementById("customerEmail").value.trim(),
+    customerPhone:document.getElementById("customerPhone").value.trim(),
+    projectRef:document.getElementById("projectRef").value.trim(),
+
+    paymentTerms:document.getElementById("paymentTerms").value.trim(),
+    notes:document.getElementById("notes").value.trim(),
+
+    template:selectedTemplate,
+    items:getItems(),
+
+    updatedAt:new Date().toISOString()
+  };
+}
+
+/* ---------- PDF ---------- */
+
+function fillPDF(){
+  const business = businessProfile();
+  const doc = getDocumentData();
+  const f = getFinancials();
+
+  document.getElementById("pdfBusinessName").textContent =
+    business.name || "Your Business";
+
+  document.getElementById("pdfTagline").textContent =
+    business.tagline || "";
+
+  document.getElementById("pdfBusinessAddress").textContent =
+    business.address || "";
+
+  document.getElementById("pdfBusinessPhone").textContent =
+    business.phone ? "☎ "+business.phone : "";
+
+  document.getElementById("pdfBusinessEmail").textContent =
+    business.email ? "✉ "+business.email : "";
+
+  document.getElementById("pdfBusinessWebsite").textContent =
+    business.website ? "◉ "+business.website : "";
+
+  document.getElementById("pdfTRN").textContent =
+    business.trn ? "TRN: "+business.trn : "";
+
+  const pdfLogo = document.getElementById("pdfLogo");
+
+  if(logoData){
+    pdfLogo.src = logoData;
+    pdfLogo.style.display = "block";
+  }else{
+    pdfLogo.style.display = "none";
+  }
+
+  document.getElementById("pdfDocumentTitle").textContent =
+    currentType === "invoice" ? "INVOICE" : "QUOTATION";
+
+  document.getElementById("pdfDocumentNo").textContent =
+    doc.id || "";
+
+  document.getElementById("pdfDate").textContent =
+    formatDate(doc.date);
+
+  document.getElementById("pdfCustomer").textContent =
+    doc.customerName || "Customer";
+
+  document.getElementById("pdfContact").textContent =
+    doc.contactPerson || "";
+
+  document.getElementById("pdfCustomerAddress").textContent =
+    doc.customerAddress || "";
+
+  document.getElementById("pdfCustomerEmail").textContent =
+    doc.customerEmail || "";
+
+  document.getElementById("pdfCustomerPhone").textContent =
+    doc.customerPhone || "";
+
+  document.getElementById("pdfProject").textContent =
+    doc.projectRef || "—";
+
+  document.getElementById("pdfDocTypeText").textContent =
+    currentType === "invoice"
+      ? "Invoice for supplied products / services"
+      : "Quotation for proposed products / services";
+
+  const pdfItems = document.getElementById("pdfItems");
+  pdfItems.innerHTML = "";
+
+  doc.items.forEach((item,index)=>{
+    if(!item.description && !item.price && !item.qty) return;
+
+    const tr = document.createElement("tr");
+
+    const values = [
+      index+1,
+      item.description || "",
+      item.qty,
+      money(item.price),
+      money(item.qty*item.price)
+    ];
+
+    values.forEach(value=>{
+      const td = document.createElement("td");
+      td.textContent = value;
+      tr.appendChild(td);
+    });
+
+    pdfItems.appendChild(tr);
+  });
+
+  document.getElementById("pdfSubtotal").textContent =
+    money(f.subtotal);
+
+  document.getElementById("pdfDiscountLabel").textContent =
+    `Discount (${f.discountRate.toFixed(1)}%)`;
+
+  document.getElementById("pdfDiscount").textContent =
+    "- "+money(f.discountAmount);
+
+  document.getElementById("pdfVATLabel").textContent =
+    `VAT (${f.vatRate.toFixed(1)}%)`;
+
+  document.getElementById("pdfVAT").textContent =
+    money(f.vatAmount);
+
+  document.getElementById("pdfTotal").textContent =
+    money(f.total);
+
+  document.getElementById("pdfTerms").textContent =
+    doc.paymentTerms || "—";
+
+  document.getElementById("pdfNotes").textContent =
+    doc.notes || "Thank you for considering our services.";
+
+  document.getElementById("pdfFooterCompany").textContent =
+    business.name || "QuoteFlow";
+
+  document.getElementById("pdfFooterWebsite").textContent =
+    business.website || "";
+
+  applyPrintTemplate();
+}
+
+function formatDate(dateString){
+  if(!dateString) return "";
+
+  const parts = dateString.split("-");
+  if(parts.length !== 3) return dateString;
+
+  const d = new Date(
+    Number(parts[0]),
+    Number(parts[1])-1,
+    Number(parts[2])
+  );
+
+  return d.toLocaleDateString("en-GB",{
+    day:"2-digit",
+    month:"short",
+    year:"numeric"
+  });
+}
+
+function previewPDF(){
+  const business = businessProfile();
+
+  if(!business.name){
+    alert("Please enter your business name first.");
+    return;
+  }
+
+  if(!document.getElementById("customerName").value.trim()){
+    alert("Please enter the customer name.");
+    return;
+  }
+
+  if(!getItems().some(item=>item.description)){
+    alert("Please enter at least one item.");
+    return;
+  }
+
+  fillPDF();
+
+  setTimeout(()=>window.print(),100);
+}
+
+/* ---------- SAVE / LOAD ---------- */
+
+function getSavedDocuments(){
+  try{
+    return JSON.parse(
+      localStorage.getItem("quoteflow-documents-v4") || "[]"
+    );
+  }catch{
+    return [];
+  }
+}
+
+function saveDocument(){
+  const doc = getDocumentData();
+
+  if(!doc.customerName){
+    alert("Please enter the customer name.");
+    return;
+  }
+
+  if(!doc.items.some(x=>x.description)){
+    alert("Please enter at least one item.");
+    return;
+  }
+
+  let saved = getSavedDocuments();
+
+  const index = saved.findIndex(x=>x.id === doc.id);
+
+  if(index >= 0){
+    saved[index] = doc;
+  }else{
+    saved.unshift(doc);
+  }
+
+  try{
+    localStorage.setItem(
+      "quoteflow-documents-v4",
+      JSON.stringify(saved)
+    );
+
+    renderSavedDocuments();
+
+    alert(
+      currentType === "invoice"
+        ? "Invoice saved successfully."
+        : "Quotation saved successfully."
+    );
+
+  }catch(err){
+    alert("Unable to save. Browser storage may be full.");
+  }
+}
+
+function renderSavedDocuments(){
+  const box = document.getElementById("savedDocuments");
+  const saved = getSavedDocuments();
+
+  if(!saved.length){
+    box.innerHTML =
+      '<span style="color:#718096;font-size:12px">No saved documents yet.</span>';
+    return;
+  }
+
+  box.innerHTML = "";
+
+  saved.forEach((doc,index)=>{
+    const row = document.createElement("div");
+    row.className = "saved-doc";
+
+    const left = document.createElement("div");
+
+    const title = document.createElement("strong");
+    title.textContent =
+      `${doc.type === "invoice" ? "Invoice" : "Quotation"} — `+
+      `${doc.customerName || "Unnamed Customer"}`;
+
+    const meta = document.createElement("small");
+    meta.textContent =
+      `${doc.id || ""} • ${formatDate(doc.date || "")}`;
+
+    left.appendChild(title);
+    left.appendChild(meta);
+
+    const actions = document.createElement("div");
+
+    const open = document.createElement("button");
+    open.className = "btn btn-light btn-small";
+    open.textContent = "Open";
+    open.onclick = ()=>loadDocument(index);
+
+    const del = document.createElement("button");
+    del.className = "btn btn-red btn-small";
+    del.style.marginLeft = "5px";
+    del.textContent = "Delete";
+    del.onclick = ()=>deleteDocument(index);
+
+    actions.appendChild(open);
+    actions.appendChild(del);
+
+    row.appendChild(left);
+    row.appendChild(actions);
+
+    box.appendChild(row);
+  });
+}
+
+function loadDocument(index){
+  const saved = getSavedDocuments();
+  const doc = saved[index];
+
+  if(!doc) return;
+
+  currentType = doc.type || "quotation";
+
+  setDocumentType(currentType,false);
+
+  document.getElementById("documentNo").value =
+    doc.id || generateNumber(currentType);
+
+  document.getElementById("documentDate").value =
+    doc.date || localDate();
+
+  document.getElementById("currency").value =
+    doc.currency || "AED";
+
+  document.getElementById("vat").value =
+    doc.vat ?? 5;
+
+  document.getElementById("discount").value =
+    doc.discount ?? 0;
+
+  document.getElementById("customerName").value =
+    doc.customerName || "";
+
+  document.getElementById("contactPerson").value =
+    doc.contactPerson || "";
+
+  document.getElementById("customerAddress").value =
+    doc.customerAddress || "";
+
+  document.getElementById("customerEmail").value =
+    doc.customerEmail || "";
+
+  document.getElementById("customerPhone").value =
+    doc.customerPhone || "";
+
+  document.getElementById("projectRef").value =
+    doc.projectRef || "";
+
+  document.getElementById("paymentTerms").value =
+    doc.paymentTerms || "";
+
+  document.getElementById("notes").value =
+    doc.notes || "";
+
+  document.getElementById("itemsBody").innerHTML = "";
+
+  (doc.items || []).forEach(item=>{
+    addItem(
+      item.description,
+      item.qty,
+      item.price,
+      item.cost
+    );
+  });
+
+  if(!(doc.items || []).length){
+    addItem();
+  }
+
+  selectedTemplate = doc.template || "modern";
+
+  document.querySelectorAll(".template").forEach(el=>{
+    el.classList.toggle(
+      "selected",
+      el.dataset.template === selectedTemplate
+    );
+  });
+
+  calculate();
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function deleteDocument(index){
+  if(!confirm("Delete this document?")) return;
+
+  const saved = getSavedDocuments();
+
+  saved.splice(index,1);
+
+  localStorage.setItem(
+    "quoteflow-documents-v4",
+    JSON.stringify(saved)
+  );
+
+  renderSavedDocuments();
+}
+
+/* ---------- NEW / DUPLICATE ---------- */
+
+function clearCustomer(){
+  document.getElementById("customerName").value = "";
+  document.getElementById("contactPerson").value = "";
+  document.getElementById("customerAddress").value = "";
+  document.getElementById("customerEmail").value = "";
+  document.getElementById("customerPhone").value = "";
+  document.getElementById("projectRef").value = "";
+}
 
 function newDocument(){
+  if(!confirm("Start a new quotation?")) return;
 
-if(!confirm("Start a new quotation?")){
-return;
+  setDocumentType("quotation",true);
+
+  document.getElementById("documentDate").value = localDate();
+  document.getElementById("vat").value = 5;
+  document.getElementById("discount").value = 0;
+
+  clearCustomer();
+
+  document.getElementById("paymentTerms").value =
+    "Valid for 30 days from the date of this quotation.";
+
+  document.getElementById("notes").value =
+    "Thank you for considering our services.";
+
+  document.getElementById("itemsBody").innerHTML = "";
+
+  addItem();
+
+  calculate();
+
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
-setDocumentType("quotation");
+function duplicateDocument(){
+  document.getElementById("documentNo").value =
+    generateNumber(currentType);
 
-document.getElementById("customer").value="";
-document.getElementById("email").value="";
+  document.getElementById("documentDate").value =
+    localDate();
 
-document.getElementById("quoteNo").value=
-generateNumber("quotation");
-
-document.getElementById("date").value=
-localDate();
-
-document.getElementById("discount").value=0;
-document.getElementById("terms").value="";
-document.getElementById("notes").value="";
-
-document.getElementById("items").innerHTML="";
-
-addItem();
-
-calculate();
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
+  alert("Document duplicated with a new number.");
 }
 
+/* ---------- INITIALIZE ---------- */
 
-addItem();
+function initialize(){
+  loadBusinessProfile();
 
-renderSaved();
+  document.getElementById("documentDate").value = localDate();
 
-calculate();
+  setDocumentType("quotation",true);
+
+  document.getElementById("paymentTerms").value =
+    "Valid for 30 days from the date of this quotation.";
+
+  document.getElementById("notes").value =
+    "Thank you for considering our services. We look forward to working with you.";
+
+  addItem();
+
+  renderSavedDocuments();
+
+  calculate();
+}
+
+initialize();
 
 </script>
 
