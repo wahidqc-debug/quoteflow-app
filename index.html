@@ -7,53 +7,151 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
-margin:0;background:#f3f5f7;color:#17212b;
+margin:0;
+background:#f3f5f7;
+color:#17212b;
 font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif
 }
-header{background:#111827;color:white;padding:22px}
+
+header{
+background:#111827;
+color:white;
+padding:22px
+}
+
 header h1{margin:0;font-size:28px}
 header p{margin:5px 0 0;color:#cbd5e1}
-.container{max-width:1000px;margin:auto;padding:20px}
+
+.container{
+max-width:1000px;
+margin:auto;
+padding:20px
+}
+
 .card{
-background:white;border-radius:15px;padding:20px;margin-bottom:16px;
+background:white;
+border-radius:15px;
+padding:20px;
+margin-bottom:16px;
 box-shadow:0 2px 12px rgba(0,0,0,.06)
 }
+
 h2{margin:0 0 17px;font-size:20px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
-label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:13px
+}
+
+label{
+display:block;
+font-size:13px;
+font-weight:700;
+margin-bottom:6px
+}
+
 input,select,textarea{
-width:100%;padding:11px;border:1px solid #d5dbe2;
-border-radius:9px;font-size:16px;background:white
+width:100%;
+padding:11px;
+border:1px solid #d5dbe2;
+border-radius:9px;
+font-size:16px;
+background:white
 }
-textarea{min-height:75px}
+
+textarea{min-height:70px}
+
 .item{
-display:grid;grid-template-columns:2fr .55fr 1fr 1fr 44px;
-gap:8px;align-items:end;margin-bottom:10px
+display:grid;
+grid-template-columns:2fr .55fr 1fr 1fr 44px;
+gap:8px;
+align-items:end;
+margin-bottom:10px
 }
+
 button{
-border:0;border-radius:9px;padding:11px 16px;font-weight:700;
-font-size:14px;cursor:pointer
+border:0;
+border-radius:9px;
+padding:11px 16px;
+font-weight:700;
+font-size:14px;
+cursor:pointer
 }
+
 .primary{background:#2563eb;color:white}
 .secondary{background:#e5e7eb;color:#111827}
 .success{background:#059669;color:white}
+.invoice-btn{background:#7c3aed;color:white}
 .danger{background:#fee2e2;color:#b91c1c;padding:11px}
-.actions{display:flex;gap:9px;flex-wrap:wrap}
-.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.summary div{background:#f8fafc;border-radius:11px;padding:14px}
-.summary span{display:block;color:#64748b;font-size:12px}
-.summary strong{display:block;font-size:19px;margin-top:5px}
+
+.actions{
+display:flex;
+gap:9px;
+flex-wrap:wrap
+}
+
+.summary{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px
+}
+
+.summary div{
+background:#f8fafc;
+border-radius:11px;
+padding:14px
+}
+
+.summary span{
+display:block;
+color:#64748b;
+font-size:12px
+}
+
+.summary strong{
+display:block;
+font-size:19px;
+margin-top:5px
+}
+
 .total{background:#eff6ff!important}
 .internal{background:#ecfdf5!important}
+
 .badge{
-display:inline-block;background:#fef3c7;color:#92400e;
-padding:5px 9px;border-radius:20px;font-size:12px;font-weight:700
+display:inline-block;
+background:#fef3c7;
+color:#92400e;
+padding:5px 9px;
+border-radius:20px;
+font-size:12px;
+font-weight:700
 }
+
+.document-badge{
+display:inline-block;
+background:#dbeafe;
+color:#1e40af;
+padding:6px 11px;
+border-radius:20px;
+font-size:13px;
+font-weight:800;
+margin-bottom:12px
+}
+
 .saved-item{
-border:1px solid #e5e7eb;border-radius:10px;padding:12px;
-margin-top:9px;display:flex;justify-content:space-between;align-items:center
+border:1px solid #e5e7eb;
+border-radius:10px;
+padding:12px;
+margin-top:9px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px
 }
+
 .small{font-size:12px;color:#64748b}
 
 @media(max-width:700px){
@@ -62,18 +160,130 @@ margin-top:9px;display:flex;justify-content:space-between;align-items:center
 .summary{grid-template-columns:1fr 1fr}
 }
 
+/* CUSTOMER PRINT / PDF */
+
 @media print{
-body{background:white}
-.no-print,.internal-only{display:none!important}
-.container{max-width:none;padding:0}
-.card{box-shadow:none;border:0;padding:10px}
-header{background:white;color:#111827;padding:10px 10px 20px}
-header p{color:#555}
-input,select,textarea{
-border:0;padding:3px;background:white;appearance:none
+
+@page{
+size:A4;
+margin:8mm;
 }
-.item{grid-template-columns:2fr .5fr 1fr}
-.cost-column,.delete-column{display:none!important}
+
+body{
+background:white;
+font-size:11px;
+}
+
+.no-print,
+.internal-only{
+display:none!important;
+}
+
+header{
+background:white;
+color:#111827;
+padding:0 0 7px;
+border-bottom:2px solid #111827;
+}
+
+header h1{
+font-size:22px;
+margin:0;
+}
+
+header p{
+color:#555;
+font-size:10px;
+margin:2px 0;
+}
+
+.container{
+max-width:none;
+padding:0;
+margin:0;
+}
+
+.card{
+box-shadow:none;
+border:0;
+border-radius:0;
+padding:6px 0;
+margin:0 0 5px;
+page-break-inside:avoid;
+break-inside:avoid;
+}
+
+h2{
+font-size:15px;
+margin:0 0 5px;
+}
+
+.grid{
+grid-template-columns:1fr 1fr;
+gap:3px 15px;
+}
+
+label{
+font-size:9px;
+margin:0 0 1px;
+color:#555;
+}
+
+input,
+select,
+textarea{
+border:0;
+padding:0;
+font-size:11px;
+border-radius:0;
+appearance:none;
+-webkit-appearance:none;
+background:white;
+color:#111827;
+}
+
+textarea{
+min-height:22px;
+resize:none;
+}
+
+.item{
+grid-template-columns:2fr .4fr .8fr;
+gap:8px;
+margin-bottom:3px;
+align-items:start;
+}
+
+.cost-column,
+.delete-column{
+display:none!important;
+}
+
+.summary{
+grid-template-columns:repeat(4,1fr);
+gap:5px;
+}
+
+.summary div{
+padding:6px;
+border:1px solid #e5e7eb;
+}
+
+.summary span{
+font-size:8px;
+}
+
+.summary strong{
+font-size:13px;
+margin-top:2px;
+}
+
+.document-badge{
+font-size:10px;
+padding:3px 7px;
+margin-bottom:4px;
+}
+
 }
 </style>
 </head>
@@ -88,9 +298,11 @@ border:0;padding:3px;background:white;appearance:none
 <div class="container">
 
 <div class="card">
-<h2>Business & Customer</h2>
+<span id="docBadge" class="document-badge">QUOTATION</span>
+<h2 id="docHeading">Quotation Details</h2>
 
 <div class="grid">
+
 <div>
 <label>Business Name</label>
 <input id="business" placeholder="Your company">
@@ -112,7 +324,7 @@ border:0;padding:3px;background:white;appearance:none
 </div>
 
 <div>
-<label>Quotation No.</label>
+<label id="numberLabel">Quotation No.</label>
 <input id="quoteNo">
 </div>
 
@@ -130,30 +342,41 @@ border:0;padding:3px;background:white;appearance:none
 <option>GBP</option>
 <option>SAR</option>
 <option>EGP</option>
+<option>QAR</option>
+<option>KWD</option>
+<option>BHD</option>
+<option>OMR</option>
 </select>
 </div>
 
 <div>
 <label>VAT %</label>
-<input id="vat" type="number" value="5" oninput="calculate()">
+<input id="vat" type="number" value="5" min="0" oninput="calculate()">
 </div>
+
 </div>
 </div>
 
 
 <div class="card">
-<h2>Quotation Items</h2>
+
+<h2 id="itemsHeading">Quotation Items</h2>
 
 <div id="items"></div>
 
-<button class="secondary no-print" onclick="addItem()">+ Add Item</button>
+<button class="secondary no-print" onclick="addItem()">
++ Add Item
+</button>
+
 </div>
 
 
 <div class="card">
-<h2>Discount</h2>
+
+<h2>Terms</h2>
 
 <div class="grid">
+
 <div>
 <label>Discount %</label>
 <input id="discount" type="number" value="0" min="0" max="100"
@@ -161,15 +384,23 @@ oninput="calculate()">
 </div>
 
 <div>
-<label>Notes</label>
-<textarea id="notes" placeholder="Payment terms, validity, delivery..."></textarea>
+<label>Validity / Payment Terms</label>
+<input id="terms" placeholder="Example: Valid 30 days">
 </div>
+
+<div style="grid-column:1/-1">
+<label>Notes</label>
+<textarea id="notes"
+placeholder="Delivery, scope, payment or other notes..."></textarea>
+</div>
+
 </div>
 </div>
 
 
 <div class="card">
-<h2>Quotation Summary</h2>
+
+<h2>Summary</h2>
 
 <div class="summary">
 
@@ -211,35 +442,47 @@ oninput="calculate()">
 </div>
 
 <p class="internal-only">
-<span class="badge">Private figures are not printed on customer quotation</span>
+<span class="badge">
+Private cost and profit figures are never printed on the customer document
+</span>
 </p>
+
 </div>
 
 
 <div class="card no-print">
+
 <div class="actions">
 
 <button class="primary" onclick="window.print()">
 Customer PDF / Print
 </button>
 
-<button class="success" onclick="saveQuote()">
-Save Quotation
+<button class="success" onclick="saveDocument()">
+Save
 </button>
 
-<button class="secondary" onclick="newQuote()">
-New Quotation
+<button class="invoice-btn" onclick="convertDocument()">
+<span id="convertText">Convert to Invoice</span>
+</button>
+
+<button class="secondary" onclick="newDocument()">
+New
 </button>
 
 </div>
+
 </div>
 
 
 <div class="card no-print">
-<h2>Saved Quotations</h2>
+
+<h2>Saved Documents</h2>
+
 <div id="savedQuotes">
-<p class="small">No saved quotations yet.</p>
+<p class="small">No saved documents yet.</p>
 </div>
+
 </div>
 
 </div>
@@ -247,29 +490,67 @@ New Quotation
 
 <script>
 
+let documentType="quotation";
+
+
 function localDate(){
+
 const d=new Date();
+
 const y=d.getFullYear();
 const m=String(d.getMonth()+1).padStart(2,"0");
 const day=String(d.getDate()).padStart(2,"0");
+
 return `${y}-${m}-${day}`;
+
 }
+
+
+function generateNumber(type){
+
+const prefix=type==="invoice" ? "INV-" : "Q-";
+
+return prefix+Date.now().toString().slice(-6);
+
+}
+
 
 document.getElementById("date").value=localDate();
+document.getElementById("quoteNo").value=generateNumber("quotation");
 
-function generateQuoteNo(){
-return "Q-"+Date.now().toString().slice(-6);
+
+function setDocumentType(type){
+
+documentType=type;
+
+const invoice=type==="invoice";
+
+document.getElementById("docBadge").textContent=
+invoice ? "INVOICE" : "QUOTATION";
+
+document.getElementById("docHeading").textContent=
+invoice ? "Invoice Details" : "Quotation Details";
+
+document.getElementById("itemsHeading").textContent=
+invoice ? "Invoice Items" : "Quotation Items";
+
+document.getElementById("numberLabel").textContent=
+invoice ? "Invoice No." : "Quotation No.";
+
+document.getElementById("convertText").textContent=
+invoice ? "Convert to Quotation" : "Convert to Invoice";
+
 }
-
-document.getElementById("quoteNo").value=generateQuoteNo();
 
 
 function addItem(desc="",qty=1,price=0,cost=0){
 
 const row=document.createElement("div");
+
 row.className="item";
 
 row.innerHTML=`
+
 <div>
 <label>Description</label>
 <input class="desc" placeholder="Service or product">
@@ -277,30 +558,61 @@ row.innerHTML=`
 
 <div>
 <label>Qty</label>
-<input class="qty" type="number" value="${qty}" min="0"
+<input class="qty"
+type="number"
+value="${qty}"
+min="0"
+step="1"
 oninput="calculate()">
 </div>
 
 <div>
 <label>Price</label>
-<input class="price" type="number" value="${price}" min="0"
-step="0.01" oninput="calculate()">
+<input class="price"
+type="number"
+value="${price}"
+min="0"
+step="0.01"
+oninput="calculate()">
 </div>
 
 <div class="cost-column internal-only">
 <label>Cost</label>
-<input class="itemCost" type="number" value="${cost}" min="0"
-step="0.01" oninput="calculate()">
+<input class="itemCost"
+type="number"
+value="${cost}"
+min="0"
+step="0.01"
+oninput="calculate()">
 </div>
 
 <button class="danger delete-column no-print"
-onclick="this.parentElement.remove();calculate()">×</button>
+onclick="removeItem(this)">×</button>
+
 `;
 
 row.querySelector(".desc").value=desc;
 
 document.getElementById("items").appendChild(row);
+
 calculate();
+
+}
+
+
+function removeItem(button){
+
+const rows=document.querySelectorAll(".item");
+
+if(rows.length<=1){
+alert("At least one item is required.");
+return;
+}
+
+button.parentElement.remove();
+
+calculate();
+
 }
 
 
@@ -311,9 +623,14 @@ let totalCost=0;
 
 document.querySelectorAll(".item").forEach(row=>{
 
-const qty=parseFloat(row.querySelector(".qty").value)||0;
-const price=parseFloat(row.querySelector(".price").value)||0;
-const cost=parseFloat(row.querySelector(".itemCost")?.value)||0;
+const qty=
+parseFloat(row.querySelector(".qty").value)||0;
+
+const price=
+parseFloat(row.querySelector(".price").value)||0;
+
+const cost=
+parseFloat(row.querySelector(".itemCost")?.value)||0;
 
 subtotal+=qty*price;
 totalCost+=qty*cost;
@@ -321,95 +638,167 @@ totalCost+=qty*cost;
 });
 
 const discountRate=
-parseFloat(document.getElementById("discount").value)||0;
+Math.max(0,
+Math.min(100,
+parseFloat(document.getElementById("discount").value)||0));
 
-const discountAmount=subtotal*(discountRate/100);
+const discountAmount=
+subtotal*(discountRate/100);
 
-const afterDiscount=subtotal-discountAmount;
+const taxable=
+subtotal-discountAmount;
 
-const vatRate=parseFloat(document.getElementById("vat").value)||0;
+const vatRate=
+Math.max(0,
+parseFloat(document.getElementById("vat").value)||0);
 
-const vatAmount=afterDiscount*(vatRate/100);
+const vatAmount=
+taxable*(vatRate/100);
 
-const total=afterDiscount+vatAmount;
+const total=
+taxable+vatAmount;
 
-const profit=afterDiscount-totalCost;
+const profit=
+taxable-totalCost;
 
-const margin=afterDiscount>0 ?
-(profit/afterDiscount)*100 : 0;
+const margin=
+taxable>0 ? (profit/taxable)*100 : 0;
 
-const cur=document.getElementById("currency").value;
+const currency=
+document.getElementById("currency").value;
 
-function money(v){
-return cur+" "+v.toFixed(2);
+
+function money(value){
+return currency+" "+value.toFixed(2);
 }
 
-document.getElementById("subtotal").textContent=money(subtotal);
-document.getElementById("discountAmount").textContent=money(discountAmount);
-document.getElementById("vatAmount").textContent=money(vatAmount);
-document.getElementById("total").textContent=money(total);
-document.getElementById("cost").textContent=money(totalCost);
-document.getElementById("profit").textContent=money(profit);
-document.getElementById("margin").textContent=margin.toFixed(1)+"%";
+
+document.getElementById("subtotal").textContent=
+money(subtotal);
+
+document.getElementById("discountAmount").textContent=
+money(discountAmount);
+
+document.getElementById("vatAmount").textContent=
+money(vatAmount);
+
+document.getElementById("total").textContent=
+money(total);
+
+document.getElementById("cost").textContent=
+money(totalCost);
+
+document.getElementById("profit").textContent=
+money(profit);
+
+document.getElementById("margin").textContent=
+margin.toFixed(1)+"%";
+
 }
 
 
-function getQuoteData(){
+function getDocumentData(){
 
 const items=[];
 
 document.querySelectorAll(".item").forEach(row=>{
 
 items.push({
+
 desc:row.querySelector(".desc").value,
+
 qty:row.querySelector(".qty").value,
+
 price:row.querySelector(".price").value,
+
 cost:row.querySelector(".itemCost")?.value||0
+
 });
 
 });
 
 return{
+
+type:documentType,
+
 business:document.getElementById("business").value,
+
 customer:document.getElementById("customer").value,
+
 phone:document.getElementById("phone").value,
+
 email:document.getElementById("email").value,
-quoteNo:document.getElementById("quoteNo").value,
+
+number:document.getElementById("quoteNo").value,
+
 date:document.getElementById("date").value,
+
 currency:document.getElementById("currency").value,
+
 vat:document.getElementById("vat").value,
+
 discount:document.getElementById("discount").value,
+
+terms:document.getElementById("terms").value,
+
 notes:document.getElementById("notes").value,
-items:items
+
+items
+
 };
 
 }
 
 
-function saveQuote(){
+function saveDocument(){
 
-const q=getQuoteData();
+const data=getDocumentData();
 
-if(!q.customer.trim()){
+if(!data.customer.trim()){
+
 alert("Please enter customer name.");
+
 return;
+
 }
 
-let saved=JSON.parse(localStorage.getItem("quoteflow-quotes")||"[]");
+if(!data.items.some(i=>i.desc.trim())){
 
-const existing=saved.findIndex(x=>x.quoteNo===q.quoteNo);
+alert("Please enter at least one item description.");
+
+return;
+
+}
+
+let saved=
+JSON.parse(localStorage.getItem("quoteflow-documents")||"[]");
+
+const existing=
+saved.findIndex(x=>x.number===data.number);
 
 if(existing>=0){
-saved[existing]=q;
+
+saved[existing]=data;
+
 }else{
-saved.unshift(q);
+
+saved.unshift(data);
+
 }
 
-localStorage.setItem("quoteflow-quotes",JSON.stringify(saved));
+localStorage.setItem(
+"quoteflow-documents",
+JSON.stringify(saved)
+);
 
 renderSaved();
 
-alert("Quotation saved.");
+alert(
+documentType==="invoice"
+? "Invoice saved."
+: "Quotation saved."
+);
+
 }
 
 
@@ -418,127 +807,227 @@ function renderSaved(){
 const box=document.getElementById("savedQuotes");
 
 const saved=
-JSON.parse(localStorage.getItem("quoteflow-quotes")||"[]");
+JSON.parse(localStorage.getItem("quoteflow-documents")||"[]");
 
 if(!saved.length){
-box.innerHTML='<p class="small">No saved quotations yet.</p>';
+
+box.innerHTML=
+'<p class="small">No saved documents yet.</p>';
+
 return;
+
 }
 
 box.innerHTML="";
 
-saved.forEach((q,index)=>{
+saved.forEach((doc,index)=>{
 
-const div=document.createElement("div");
-div.className="saved-item";
+const row=document.createElement("div");
+
+row.className="saved-item";
+
 
 const info=document.createElement("div");
 
-const strong=document.createElement("strong");
-strong.textContent=q.customer || "Unnamed customer";
+const title=document.createElement("strong");
+
+title.textContent=
+(doc.type==="invoice" ? "Invoice — " : "Quotation — ")
++(doc.customer||"Unnamed customer");
 
 const meta=document.createElement("div");
-meta.className="small";
-meta.textContent=(q.quoteNo || "")+" • "+(q.date || "");
 
-info.appendChild(strong);
+meta.className="small";
+
+meta.textContent=
+(doc.number||"")+" • "+(doc.date||"");
+
+
+info.appendChild(title);
 info.appendChild(meta);
+
 
 const controls=document.createElement("div");
 
-const openBtn=document.createElement("button");
-openBtn.className="secondary";
-openBtn.textContent="Open";
-openBtn.onclick=()=>loadQuote(index);
 
-const deleteBtn=document.createElement("button");
-deleteBtn.className="danger";
-deleteBtn.textContent="Delete";
-deleteBtn.style.marginLeft="5px";
-deleteBtn.onclick=()=>deleteQuote(index);
+const open=document.createElement("button");
 
-controls.appendChild(openBtn);
-controls.appendChild(deleteBtn);
+open.className="secondary";
 
-div.appendChild(info);
-div.appendChild(controls);
+open.textContent="Open";
 
-box.appendChild(div);
+open.onclick=()=>loadDocument(index);
+
+
+const del=document.createElement("button");
+
+del.className="danger";
+
+del.style.marginLeft="5px";
+
+del.textContent="Delete";
+
+del.onclick=()=>deleteDocument(index);
+
+
+controls.appendChild(open);
+controls.appendChild(del);
+
+row.appendChild(info);
+row.appendChild(controls);
+
+box.appendChild(row);
 
 });
+
 }
 
 
-function loadQuote(index){
+function loadDocument(index){
 
 const saved=
-JSON.parse(localStorage.getItem("quoteflow-quotes")||"[]");
+JSON.parse(localStorage.getItem("quoteflow-documents")||"[]");
 
-const q=saved[index];
+const doc=saved[index];
 
-if(!q)return;
+if(!doc)return;
 
-document.getElementById("business").value=q.business||"";
-document.getElementById("customer").value=q.customer||"";
-document.getElementById("phone").value=q.phone||"";
-document.getElementById("email").value=q.email||"";
-document.getElementById("quoteNo").value=q.quoteNo||"";
-document.getElementById("date").value=q.date||localDate();
-document.getElementById("currency").value=q.currency||"AED";
-document.getElementById("vat").value=q.vat||0;
-document.getElementById("discount").value=q.discount||0;
-document.getElementById("notes").value=q.notes||"";
+setDocumentType(doc.type||"quotation");
+
+document.getElementById("business").value=
+doc.business||"";
+
+document.getElementById("customer").value=
+doc.customer||"";
+
+document.getElementById("phone").value=
+doc.phone||"";
+
+document.getElementById("email").value=
+doc.email||"";
+
+document.getElementById("quoteNo").value=
+doc.number||"";
+
+document.getElementById("date").value=
+doc.date||localDate();
+
+document.getElementById("currency").value=
+doc.currency||"AED";
+
+document.getElementById("vat").value=
+doc.vat??5;
+
+document.getElementById("discount").value=
+doc.discount??0;
+
+document.getElementById("terms").value=
+doc.terms||"";
+
+document.getElementById("notes").value=
+doc.notes||"";
 
 document.getElementById("items").innerHTML="";
 
-(q.items||[]).forEach(i=>
-addItem(i.desc,i.qty,i.price,i.cost)
+(doc.items||[]).forEach(item=>
+addItem(
+item.desc,
+item.qty,
+item.price,
+item.cost
+)
 );
 
-if(!(q.items||[]).length)addItem();
+if(!(doc.items||[]).length){
+addItem();
+}
 
 calculate();
 
-window.scrollTo({top:0,behavior:"smooth"});
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
 }
 
 
-function deleteQuote(index){
+function deleteDocument(index){
 
-if(!confirm("Delete this quotation?"))return;
+if(!confirm("Delete this document?")){
+return;
+}
 
 let saved=
-JSON.parse(localStorage.getItem("quoteflow-quotes")||"[]");
+JSON.parse(localStorage.getItem("quoteflow-documents")||"[]");
 
 saved.splice(index,1);
 
-localStorage.setItem("quoteflow-quotes",JSON.stringify(saved));
+localStorage.setItem(
+"quoteflow-documents",
+JSON.stringify(saved)
+);
 
 renderSaved();
+
 }
 
 
-function newQuote(){
+function convertDocument(){
 
-if(!confirm("Start a new quotation?"))return;
+const target=
+documentType==="quotation"
+? "invoice"
+: "quotation";
+
+setDocumentType(target);
+
+document.getElementById("quoteNo").value=
+generateNumber(target);
+
+}
+
+
+function newDocument(){
+
+if(!confirm("Start a new quotation?")){
+return;
+}
+
+setDocumentType("quotation");
 
 document.getElementById("customer").value="";
 document.getElementById("email").value="";
-document.getElementById("quoteNo").value=generateQuoteNo();
-document.getElementById("date").value=localDate();
+
+document.getElementById("quoteNo").value=
+generateNumber("quotation");
+
+document.getElementById("date").value=
+localDate();
+
 document.getElementById("discount").value=0;
+document.getElementById("terms").value="";
 document.getElementById("notes").value="";
+
 document.getElementById("items").innerHTML="";
 
 addItem();
+
 calculate();
 
-window.scrollTo({top:0,behavior:"smooth"});
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
 }
 
 
 addItem();
+
 renderSaved();
+
+calculate();
 
 </script>
 
