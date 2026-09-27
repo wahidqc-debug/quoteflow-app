@@ -4,311 +4,283 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuoteFlow - Professional Quotation</title>
-    <!-- استدعاء مكتبة التصميم Tailwind CSS -->
+    
+    <!-- 1. مكتبة التصميم Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- استدعاء الأيقونات -->
+    
+    <!-- 2. مكتبة Vue.js لربط البيانات تلقائياً -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <!-- 3. مكتبة الأيقونات -->
     <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         input, select, textarea { outline: none; }
         input:focus, select:focus, textarea:focus { border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); }
+        [v-cloak] { display: none; }
     </style>
 </head>
 <body class="flex h-screen overflow-hidden text-gray-800">
 
-    <!-- القائمة الجانبية -->
-    <aside class="w-64 bg-[#0B1120] text-white flex flex-col p-4 shrink-0">
-        <div class="mb-8">
-            <h1 class="text-2xl font-bold text-blue-400">QuoteFlow</h1>
-            <p class="text-xs text-gray-400 mt-1">Professional quotes. Smarter business.</p>
-        </div>
-        
-        <button class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 mb-6 font-medium transition cursor-pointer">
-            <i data-lucide="plus" class="w-5 h-5"></i> New Document
-        </button>
+    <!-- التطبيق الرئيسي (Vue) -->
+    <div id="app" v-cloak class="flex w-full h-full">
 
-        <nav class="flex-1 space-y-2">
-            <div class="flex items-center gap-3 px-3 py-2 text-gray-300 hover:bg-white/10 hover:text-white rounded-lg cursor-pointer transition">
-                <i data-lucide="layout-dashboard" class="w-5 h-5"></i> <span>Dashboard</span>
-            </div>
-            <div class="flex items-center gap-3 px-3 py-2 text-gray-300 hover:bg-white/10 hover:text-white rounded-lg cursor-pointer transition">
-                <i data-lucide="briefcase" class="w-5 h-5"></i> <span>Business Profile</span>
-            </div>
-            <div class="flex items-center gap-3 px-3 py-2 text-gray-300 hover:bg-white/10 hover:text-white rounded-lg cursor-pointer transition">
-                <i data-lucide="file-text" class="w-5 h-5"></i> <span>PDF Templates</span>
-            </div>
-        </nav>
-
-        <div class="bg-[#1A2333] p-4 rounded-xl border border-yellow-600/30 mt-auto">
-            <div class="flex items-center gap-2 text-yellow-500 font-bold mb-2">
-                <i data-lucide="crown" class="w-4 h-4"></i> QuoteFlow Pro
-            </div>
-            <p class="text-xs text-gray-400">Professional branding, invoices, profit intelligence and smart quotation tools.</p>
-        </div>
-    </aside>
-
-    <!-- المحتوى الرئيسي -->
-    <main class="flex-1 overflow-y-auto p-8">
-        
-        <!-- الهيدر -->
-        <header class="flex justify-between items-center mb-8">
-            <div class="flex items-center gap-4">
-                <h2 class="text-2xl font-bold">Quotation</h2>
-                <span class="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-xs font-semibold">Draft</span>
-            </div>
-            <div class="flex gap-3">
-                <button class="px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 font-medium flex items-center gap-2 transition">
-                    <i data-lucide="eye" class="w-4 h-4"></i> Preview
-                </button>
-                <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium flex items-center gap-2 transition">
-                    <i data-lucide="save" class="w-4 h-4"></i> Save
-                </button>
-                <button class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 font-medium transition">
-                    Convert to Invoice
-                </button>
-            </div>
-        </header>
-
-        <!-- تفاصيل العميل -->
-        <section class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
-            <div class="flex items-center gap-2 mb-4 text-gray-700 font-semibold">
-                <i data-lucide="user" class="w-5 h-5"></i> Customer Details
-            </div>
-            <div class="grid grid-cols-2 gap-6">
-                <div>
-                    <label class="block text-sm font-medium text-gray-600 mb-1">Customer / Company</label>
-                    <input type="text" value="RTE" class="w-full p-2 border border-gray-300 rounded-lg">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-600 mb-1">Email</label>
-                    <input type="email" placeholder="customer@company.com" class="w-full p-2 border border-gray-300 rounded-lg">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-600 mb-1">Contact Person</label>
-                    <input type="text" placeholder="Contact name" class="w-full p-2 border border-gray-300 rounded-lg">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-600 mb-1">Phone</label>
-                    <input type="text" placeholder="+971..." class="w-full p-2 border border-gray-300 rounded-lg">
-                </div>
-            </div>
-        </section>
-
-        <!-- معلومات المستند -->
-        <section class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
-            <div class="flex items-center gap-2 mb-4 text-gray-700 font-semibold">
-                <i data-lucide="file-text" class="w-5 h-5"></i> Document Information
-            </div>
-            <div class="grid grid-cols-6 gap-4">
-                <div class="col-span-1">
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Type</label>
-                    <select class="w-full p-2 border border-gray-300 rounded-lg bg-white">
-                        <option>Quotation</option>
-                        <option>Invoice</option>
-                    </select>
-                </div>
-                <div class="col-span-1">
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Document No.</label>
-                    <input type="text" value="Q-260927-629" readonly class="w-full p-2 border border-gray-300 rounded-lg bg-gray-50">
-                </div>
-                <div class="col-span-1">
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Date</label>
-                    <input type="text" value="27 Sep 2026" class="w-full p-2 border border-gray-300 rounded-lg">
-                </div>
-                <div class="col-span-1">
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Currency</label>
-                    <select class="w-full p-2 border border-gray-300 rounded-lg bg-white">
-                        <option>AED</option>
-                        <option>USD</option>
-                    </select>
-                </div>
-                <div class="col-span-1">
-                    <label class="block text-xs font-medium text-gray-500 mb-1">VAT %</label>
-                    <input type="number" id="vatInput" value="5" class="w-full p-2 border border-gray-300 rounded-lg">
-                </div>
-                <div class="col-span-1">
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Discount %</label>
-                    <input type="number" id="discountInput" value="10" class="w-full p-2 border border-gray-300 rounded-lg">
-                </div>
-            </div>
-        </section>
-
-        <!-- البنود (Items) -->
-        <section class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
-            <div class="flex justify-between items-center mb-4">
-                <div class="flex items-center gap-2 text-gray-700 font-semibold">
-                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Items
-                </div>
-                <button onclick="addItem()" class="text-sm bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700 flex items-center gap-1 transition">
-                    <i data-lucide="plus" class="w-4 h-4"></i> Add Item
-                </button>
+        <!-- القائمة الجانبية -->
+        <aside class="w-64 bg-[#0B1120] text-white flex flex-col p-4 shrink-0">
+            <div class="mb-8">
+                <h1 class="text-2xl font-bold text-blue-400">QuoteFlow</h1>
+                <p class="text-xs text-gray-400 mt-1">Professional quotes. Smarter business.</p>
             </div>
             
-            <table class="w-full text-left text-sm" id="itemsTable">
-                <thead class="bg-gray-50 text-gray-500">
-                    <tr>
-                        <th class="p-3 rounded-l-lg">#</th>
-                        <th class="p-3">Description</th>
-                        <th class="p-3 w-20">Qty</th>
-                        <th class="p-3 w-32">Unit Price</th>
-                        <th class="p-3 w-32 text-green-700">Cost 🔒</th>
-                        <th class="p-3 w-32">Amount</th>
-                        <th class="p-3 rounded-r-lg"></th>
-                    </tr>
-                </thead>
-                <tbody id="itemsBody">
-                    <!-- سيتم إضافة البنود هنا تلقائياً -->
-                </tbody>
-            </table>
-        </section>
+            <button class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 mb-6 font-medium transition cursor-pointer">
+                <i data-lucide="plus" class="w-5 h-5"></i> New Document
+            </button>
 
-        <!-- الملخص المالي -->
-        <section class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-10">
-            <div class="flex items-center gap-2 mb-4 text-gray-700 font-semibold">
-                <i data-lucide="calculator" class="w-5 h-5"></i> Financial Summary
+            <nav class="flex-1 space-y-2">
+                <div class="flex items-center gap-3 px-3 py-2 text-gray-300 hover:bg-white/10 hover:text-white rounded-lg cursor-pointer transition">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i> <span>Dashboard</span>
+                </div>
+                <div class="flex items-center gap-3 px-3 py-2 text-gray-300 hover:bg-white/10 hover:text-white rounded-lg cursor-pointer transition">
+                    <i data-lucide="briefcase" class="w-5 h-5"></i> <span>Business Profile</span>
+                </div>
+                <div class="flex items-center gap-3 px-3 py-2 text-gray-300 hover:bg-white/10 hover:text-white rounded-lg cursor-pointer transition">
+                    <i data-lucide="file-text" class="w-5 h-5"></i> <span>PDF Templates</span>
+                </div>
+            </nav>
+
+            <div class="bg-[#1A2333] p-4 rounded-xl border border-yellow-600/30 mt-auto">
+                <div class="flex items-center gap-2 text-yellow-500 font-bold mb-2">
+                    <i data-lucide="crown" class="w-4 h-4"></i> QuoteFlow Pro
+                </div>
+                <p class="text-xs text-gray-400">Professional branding, invoices, profit intelligence and smart quotation tools.</p>
             </div>
+        </aside>
+
+        <!-- المحتوى الرئيسي -->
+        <main class="flex-1 overflow-y-auto p-8">
             
-            <div class="grid grid-cols-4 gap-4 mb-4">
-                <div class="bg-green-50 p-4 rounded-lg">
-                    <div class="text-sm text-green-700 mb-1">Total Cost — Private</div>
-                    <div class="text-xl font-bold text-green-900" id="totalCost">AED 0.00</div>
+            <!-- الهيدر -->
+            <header class="flex justify-between items-center mb-8">
+                <div class="flex items-center gap-4">
+                    <h2 class="text-2xl font-bold">Quotation</h2>
+                    <span class="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-xs font-semibold">Draft</span>
                 </div>
-                <div class="bg-green-50 p-4 rounded-lg">
-                    <div class="text-sm text-green-700 mb-1">Profit — Private</div>
-                    <div class="text-xl font-bold text-green-900" id="totalProfit">AED 0.00</div>
+                <div class="flex gap-3">
+                    <button class="px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 font-medium flex items-center gap-2 transition">
+                        <i data-lucide="eye" class="w-4 h-4"></i> Preview
+                    </button>
+                    <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium flex items-center gap-2 transition">
+                        <i data-lucide="save" class="w-4 h-4"></i> Save
+                    </button>
+                    <button class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 font-medium transition">
+                        Convert to Invoice
+                    </button>
                 </div>
-                <div class="bg-green-50 p-4 rounded-lg">
-                    <div class="text-sm text-green-700 mb-1">Profit Margin — Private</div>
-                    <div class="text-xl font-bold text-green-900" id="totalMargin">0.0%</div>
-                </div>
-                <div class="bg-blue-50 p-4 rounded-lg">
-                    <div class="text-sm text-blue-700 mb-1">Customer Total</div>
-                    <div class="text-xl font-bold text-blue-900" id="customerTotal">AED 0.00</div>
-                </div>
-            </div>
+            </header>
 
-            <div class="grid grid-cols-3 gap-4">
-                <div class="bg-gray-50 p-4 rounded-lg">
-                    <div class="text-sm text-gray-500 mb-1">Subtotal</div>
-                    <div class="text-lg font-bold text-gray-800" id="subtotal">AED 0.00</div>
+            <!-- تفاصيل العميل -->
+            <section class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
+                <div class="flex items-center gap-2 mb-4 text-gray-700 font-semibold">
+                    <i data-lucide="user" class="w-5 h-5"></i> Customer Details
                 </div>
-                <div class="bg-gray-50 p-4 rounded-lg">
-                    <div class="text-sm text-gray-500 mb-1">Discount</div>
-                    <div class="text-lg font-bold text-gray-800" id="discountAmount">AED 0.00</div>
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">Customer / Company</label>
+                        <input type="text" v-model="customer.company" class="w-full p-2 border border-gray-300 rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">Email</label>
+                        <input type="email" v-model="customer.email" placeholder="customer@company.com" class="w-full p-2 border border-gray-300 rounded-lg">
+                    </div>
                 </div>
-                <div class="bg-gray-50 p-4 rounded-lg">
-                    <div class="text-sm text-gray-500 mb-1">VAT</div>
-                    <div class="text-lg font-bold text-gray-800" id="vatAmount">AED 0.00</div>
+            </section>
+
+            <!-- معلومات المستند -->
+            <section class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
+                <div class="flex items-center gap-2 mb-4 text-gray-700 font-semibold">
+                    <i data-lucide="file-text" class="w-5 h-5"></i> Document Information
                 </div>
-            </div>
+                <div class="grid grid-cols-4 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 mb-1">Document No.</label>
+                        <input type="text" v-model="docInfo.number" readonly class="w-full p-2 border border-gray-300 rounded-lg bg-gray-50">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 mb-1">Date</label>
+                        <input type="text" v-model="docInfo.date" class="w-full p-2 border border-gray-300 rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 mb-1">VAT %</label>
+                        <input type="number" v-model.number="docInfo.vat" class="w-full p-2 border border-gray-300 rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 mb-1">Discount %</label>
+                        <input type="number" v-model.number="docInfo.discount" class="w-full p-2 border border-gray-300 rounded-lg">
+                    </div>
+                </div>
+            </section>
 
-            <div class="mt-4 flex items-center gap-2 text-xs text-green-700 bg-green-50 p-3 rounded-lg border border-green-100">
-                <i data-lucide="lock" class="w-4 h-4"></i> Cost, profit and margin are internal only and never appear on the customer's PDF.
-            </div>
-        </section>
+            <!-- البنود (Items) -->
+            <section class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <div class="flex items-center gap-2 text-gray-700 font-semibold">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Items
+                    </div>
+                    <button @click="addItem" class="text-sm bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700 flex items-center gap-1 transition">
+                        <i data-lucide="plus" class="w-4 h-4"></i> Add Item
+                    </button>
+                </div>
+                
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-gray-50 text-gray-500">
+                        <tr>
+                            <th class="p-3 rounded-l-lg">#</th>
+                            <th class="p-3">Description</th>
+                            <th class="p-3 w-20">Qty</th>
+                            <th class="p-3 w-32">Unit Price</th>
+                            <th class="p-3 w-32 text-green-700">Cost 🔒</th>
+                            <th class="p-3 w-32">Amount</th>
+                            <th class="p-3 rounded-r-lg"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in items" :key="item.id" class="border-b border-gray-100 last:border-0">
+                            <td class="p-3 text-gray-500">{{ index + 1 }}</td>
+                            <td class="p-3">
+                                <input type="text" v-model="item.description" placeholder="Service or product" class="w-full p-2 border border-gray-200 rounded focus:border-blue-500 outline-none">
+                            </td>
+                            <td class="p-3">
+                                <input type="number" v-model.number="item.qty" class="w-full p-2 border border-gray-200 rounded focus:border-blue-500 outline-none">
+                            </td>
+                            <td class="p-3">
+                                <input type="number" v-model.number="item.unitPrice" class="w-full p-2 border border-gray-200 rounded focus:border-blue-500 outline-none">
+                            </td>
+                            <td class="p-3">
+                                <input type="number" v-model.number="item.cost" class="w-full p-2 border border-gray-200 rounded focus:border-blue-500 outline-none bg-green-50">
+                            </td>
+                            <td class="p-3 font-medium">AED {{ (item.qty * item.unitPrice).toLocaleString() }}</td>
+                            <td class="p-3 text-right">
+                                <button @click="removeItem(index)" class="text-gray-400 hover:text-red-500 transition">
+                                    <i data-lucide="x" class="w-4 h-4"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
 
-    </main>
+            <!-- الملخص المالي -->
+            <section class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-10">
+                <div class="flex items-center gap-2 mb-4 text-gray-700 font-semibold">
+                    <i data-lucide="calculator" class="w-5 h-5"></i> Financial Summary
+                </div>
+                
+                <div class="grid grid-cols-4 gap-4 mb-4">
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <div class="text-sm text-green-700 mb-1">Total Cost — Private</div>
+                        <div class="text-xl font-bold text-green-900">AED {{ totals.totalCost.toLocaleString() }}</div>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <div class="text-sm text-green-700 mb-1">Profit — Private</div>
+                        <div class="text-xl font-bold text-green-900">AED {{ totals.profit.toLocaleString() }}</div>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <div class="text-sm text-green-700 mb-1">Profit Margin — Private</div>
+                        <div class="text-xl font-bold text-green-900">{{ totals.margin }}%</div>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="text-sm text-blue-700 mb-1">Customer Total</div>
+                        <div class="text-xl font-bold text-blue-900">AED {{ totals.customerTotal.toLocaleString() }}</div>
+                    </div>
+                </div>
 
-    <!-- جافاسكربت للحسابات والتفاعل -->
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="text-sm text-gray-500 mb-1">Subtotal</div>
+                        <div class="text-lg font-bold text-gray-800">AED {{ totals.subtotal.toLocaleString() }}</div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="text-sm text-gray-500 mb-1">Discount</div>
+                        <div class="text-lg font-bold text-gray-800">AED {{ totals.discountAmount.toLocaleString() }}</div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="text-sm text-gray-500 mb-1">VAT</div>
+                        <div class="text-lg font-bold text-gray-800">AED {{ totals.vatAmount.toLocaleString() }}</div>
+                    </div>
+                </div>
+
+                <div class="mt-4 flex items-center gap-2 text-xs text-green-700 bg-green-50 p-3 rounded-lg border border-green-100">
+                    <i data-lucide="lock" class="w-4 h-4"></i> Cost, profit and margin are internal only and never appear on the customer's PDF.
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- كود Vue.js للربط -->
     <script>
-        // تفعيل الأيقونات
-        lucide.createIcons();
+        const { createApp, ref, computed, onMounted } = Vue;
 
-        // البيانات الأولية
-        let items = [
-            { id: 1, description: 'Ut inspection', qty: 2, unitPrice: 1000, cost: 600 }
-        ];
+        createApp({
+            setup() {
+                // البيانات
+                const customer = ref({ company: 'RTE', email: '' });
+                const docInfo = ref({ number: 'Q-260927-629', date: '27 Sep 2026', vat: 5, discount: 10 });
+                
+                const items = ref([
+                    { id: 1, description: 'Ut inspection', qty: 2, unitPrice: 1000, cost: 600 }
+                ]);
 
-        // دالة لعرض البنود في الجدول
-        function renderItems() {
-            const tbody = document.getElementById('itemsBody');
-            tbody.innerHTML = '';
+                // إضافة بند جديد
+                const addItem = () => {
+                    items.value.push({ id: Date.now(), description: '', qty: 1, unitPrice: 0, cost: 0 });
+                };
 
-            items.forEach((item, index) => {
-                const tr = document.createElement('tr');
-                tr.className = 'border-b border-gray-100 last:border-0';
-                tr.innerHTML = `
-                    <td class="p-3 text-gray-500">${index + 1}</td>
-                    <td class="p-3">
-                        <input type="text" value="${item.description}" onchange="updateItem(${item.id}, 'description', this.value)" class="w-full p-2 border border-gray-200 rounded focus:border-blue-500 outline-none">
-                    </td>
-                    <td class="p-3">
-                        <input type="number" value="${item.qty}" onchange="updateItem(${item.id}, 'qty', this.value)" class="w-full p-2 border border-gray-200 rounded focus:border-blue-500 outline-none">
-                    </td>
-                    <td class="p-3">
-                        <input type="number" value="${item.unitPrice}" onchange="updateItem(${item.id}, 'unitPrice', this.value)" class="w-full p-2 border border-gray-200 rounded focus:border-blue-500 outline-none">
-                    </td>
-                    <td class="p-3">
-                        <input type="number" value="${item.cost}" onchange="updateItem(${item.id}, 'cost', this.value)" class="w-full p-2 border border-gray-200 rounded focus:border-blue-500 outline-none bg-green-50">
-                    </td>
-                    <td class="p-3 font-medium">${(item.qty * item.unitPrice).toLocaleString()}</td>
-                    <td class="p-3 text-right">
-                        <button onclick="removeItem(${item.id})" class="text-gray-400 hover:text-red-500 transition">
-                            <i data-lucide="trash-2" class="w-4 h-4"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
+                // حذف بند
+                const removeItem = (index) => {
+                    items.value.splice(index, 1);
+                };
 
-            lucide.createIcons(); // إعادة تفعيل الأيقونات بعد الإضافة
-            calculateTotals(); // حساب الإجماليات
-        }
+                // الحسابات التلقائية
+                const totals = computed(() => {
+                    const subtotal = items.value.reduce((acc, item) => acc + (item.qty * item.unitPrice), 0);
+                    const totalCost = items.value.reduce((acc, item) => acc + (item.qty * item.cost), 0);
+                    
+                    const discountAmount = subtotal * (docInfo.value.discount / 100);
+                    const afterDiscount = subtotal - discountAmount;
+                    const vatAmount = afterDiscount * (docInfo.value.vat / 100);
+                    const customerTotal = afterDiscount + vatAmount;
+                    
+                    const profit = customerTotal - totalCost;
+                    const margin = customerTotal > 0 ? ((profit / customerTotal) * 100).toFixed(1) : 0;
 
-        // إضافة بند جديد
-        function addItem() {
-            items.push({ id: Date.now(), description: '', qty: 1, unitPrice: 0, cost: 0 });
-            renderItems();
-        }
+                    return {
+                        subtotal,
+                        totalCost,
+                        discountAmount,
+                        vatAmount,
+                        customerTotal,
+                        profit,
+                        margin
+                    };
+                });
 
-        // حذف بند
-        function removeItem(id) {
-            items = items.filter(item => item.id !== id);
-            renderItems();
-        }
+                // تفعيل الأيقونات بعد التحميل
+                onMounted(() => {
+                    lucide.createIcons();
+                });
 
-        // تحديث بيانات بند
-        function updateItem(id, field, value) {
-            const item = items.find(i => i.id === id);
-            if (item) {
-                item[field] = field === 'description' ? value : Number(value);
-                renderItems();
+                return {
+                    customer,
+                    docInfo,
+                    items,
+                    addItem,
+                    removeItem,
+                    totals
+                };
             }
-        }
-
-        // حساب الإجماليات
-        function calculateTotals() {
-            const vatRate = Number(document.getElementById('vatInput').value) || 0;
-            const discountRate = Number(document.getElementById('discountInput').value) || 0;
-
-            const subtotal = items.reduce((acc, item) => acc + (item.qty * item.unitPrice), 0);
-            const totalCost = items.reduce((acc, item) => acc + (item.qty * item.cost), 0);
-            
-            const discountAmount = subtotal * (discountRate / 100);
-            const afterDiscount = subtotal - discountAmount;
-            const vatAmount = afterDiscount * (vatRate / 100);
-            const customerTotal = afterDiscount + vatAmount;
-            
-            const profit = customerTotal - totalCost;
-            const margin = customerTotal > 0 ? (profit / customerTotal) * 100 : 0;
-
-            // تحديث الواجهة
-            document.getElementById('subtotal').innerText = `AED ${subtotal.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-            document.getElementById('discountAmount').innerText = `AED ${discountAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-            document.getElementById('vatAmount').innerText = `AED ${vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-            
-            document.getElementById('totalCost').innerText = `AED ${totalCost.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-            document.getElementById('totalProfit').innerText = `AED ${profit.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-            document.getElementById('totalMargin').innerText = `${margin.toFixed(1)}%`;
-            document.getElementById('customerTotal').innerText = `AED ${customerTotal.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-        }
-
-        // الاستماع لتغييرات الضريبة والخصم
-        document.getElementById('vatInput').addEventListener('input', calculateTotals);
-        document.getElementById('discountInput').addEventListener('input', calculateTotals);
-
-        // التشغيل الأولي
-        renderItems();
+        }).mount('#app');
     </script>
 </body>
 </html>
