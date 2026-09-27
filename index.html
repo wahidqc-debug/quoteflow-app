@@ -3302,7 +3302,54 @@ function renderSavedDocuments() {
   }
 
   console.log("Loading saved document:", doc);
-  alert("Saved document found: " + doc.documentNo);
+ setDocumentType(doc.type || "quotation", true); 
+      if ($("documentNo")) {
+    $("documentNo").value = doc.documentNo || "";
+}
+
+if ($("documentDate")) {
+    $("documentDate").value = doc.date || "";
+}
+      if (doc.customer) {
+    if ($("customerName")) $("customerName").value = doc.customer.name || "";
+    if ($("contactPerson")) $("contactPerson").value = doc.customer.contact || "";
+    if ($("customerEmail")) $("customerEmail").value = doc.customer.email || "";
+    if ($("customerPhone")) $("customerPhone").value = doc.customer.phone || "";
+    if ($("customerAddress")) $("customerAddress").value = doc.customer.address || "";
+    if ($("projectReference")) $("projectReference").value = doc.customer.reference || "";
+}
+      if ($("itemsBody")) {
+    $("itemsBody").innerHTML = "";
+
+    if (Array.isArray(doc.items) && doc.items.length > 0) {
+        doc.items.forEach(item => createItemRow(item));
+    } else {
+        createItemRow();
+    }
+}
+if ($("paymentTerms")) {
+    $("paymentTerms").value = doc.paymentTerms || "";
+}
+
+if ($("notes")) {
+    $("notes").value = doc.notes || "";
+}
+      if (doc.financials) {
+    if ($("vat")) {
+        $("vat").value = doc.financials.vat ?? 5;
+    }
+
+    if ($("discount")) {
+        $("discount").value = doc.financials.discount ?? 0;
+    }
+}
+
+if ($("currency")) {
+    $("currency").value = doc.currency || "AED";
+}
+
+
+calculate();
 }
 /* =========================================================
    DUPLICATE
