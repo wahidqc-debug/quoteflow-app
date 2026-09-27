@@ -3256,7 +3256,7 @@ function renderSavedDocuments() {
   container.innerHTML =
     documents.map(doc => `
 
-      <div class="saved-document-row">
+      <div class="saved-document-row" onclick="loadSavedDocument('${doc.id}')">
 
         <div>
 
