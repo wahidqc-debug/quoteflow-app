@@ -4783,6 +4783,229 @@ window.smartGenerate = function() {
     });
 
 };
+   /* =========================================================
+   QUOTEFLOW — FINAL SAVED DOCUMENT FIX
+========================================================= */
+
+window.loadSavedDocument = function(documentNo) {
+
+  const documents = getSavedDocuments();
+
+  const doc = documents.find(
+    d => String(d.documentNo) === String(documentNo)
+  );
+
+  if (!doc) {
+    alert("Saved document not found.");
+    return;
+  }
+
+  /* Document type */
+  if (document.getElementById("documentType")) {
+    document.getElementById("documentType").value =
+      doc.type || "quotation";
+  }
+
+  /* Core document information */
+  const setValue = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.value = value ?? "";
+  };
+
+  setValue("documentNo", doc.documentNo);
+  setValue("documentDate", doc.date);
+  setValue("currency", doc.currency || "AED");
+  setValue("status", doc.status || "Draft");
+
+  /* Customer */
+  if (doc.customer) {
+    setValue("customerName", doc.customer.name);
+    setValue("contactPerson", doc.customer.contact);
+    setValue("customerEmail", doc.customer.email);
+    setValue("customerPhone", doc.customer.phone);
+    setValue("customerAddress", doc.customer.address);
+    setValue("projectRef", doc.customer.reference);
+  }
+
+  /* Terms and notes */
+  setValue("terms", doc.paymentTerms);
+  setValue("paymentTerms", doc.paymentTerms);
+  setValue("notes", doc.notes);
+
+  /* Financial inputs */
+  if (doc.financials) {
+
+    setValue(
+      "discount",
+      doc.financials.discountPercent ?? 0
+    );
+
+    setValue(
+      "vat",
+      doc.financials.vatPercent ?? 5
+    );
+  }
+
+  /* Restore items */
+  const tbody =
+    document.getElementById("itemsBody");
+
+  if (tbody) {
+
+    tbody.innerHTML = "";
+
+    if (
+      Array.isArray(doc.items) &&
+      doc.items.length
+    ) {
+
+      doc.items.forEach(item => {
+        createItemRow({
+          description: item.description || "",
+          qty: item.qty ?? 1,
+          price: item.price ?? 0,
+          cost: item.cost ?? 0
+        });
+      });
+
+    } else {
+
+      createItemRow();
+
+    }
+  }
+
+  /* Refresh UI */
+  if (typeof typeChanged === "function") {
+    typeChanged();
+  }
+
+  if (typeof syncStatus === "function") {
+    syncStatus();
+  }
+
+  calculate();
+
+  /* Return user to editor */
+  const editor =
+    document.getElementById("editor");
+
+  if (editor) {
+    editor.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+};
+
+
+/* Replace the later Saved Documents renderer
+   so every saved card is actually clickable */
+
+window.renderSavedDocuments = function() {
+
+  const container =
+    document.getElementById("savedList");
+
+  if (!container) return;
+
+  const search =
+    document.getElementById("searchDocs")
+      ?.value
+      ?.trim()
+      ?.toLowerCase() || "";
+
+  const documents =
+    getSavedDocuments();
+
+  const filtered =
+    documents.filter(doc => {
+
+      const haystack =
+        `${doc.documentNo || ""} ${doc.customer?.name || ""}`
+        .toLowerCase();
+
+      return haystack.includes(search);
+    });
+
+  if (!filtered.length) {
+
+    container.innerHTML =
+      `<div style="
+        color:#718096;
+        font-size:13px;
+        padding:12px 0
+      ">
+        No saved documents yet.
+      </div>`;
+
+    if (typeof updateDashboard === "function") {
+      updateDashboard();
+    }
+
+    return;
+  }
+
+  container.innerHTML =
+    filtered.map(doc => {
+
+      const documentNo =
+        String(doc.documentNo || "");
+
+      const safeDocumentNo =
+        documentNo
+          .replace(/\\/g, "\\\\")
+          .replace(/'/g, "\\'");
+
+      return `
+        <div
+          class="saved-doc"
+          role="button"
+          tabindex="0"
+          style="cursor:pointer"
+          onclick="loadSavedDocument('${safeDocumentNo}')"
+          onkeydown="if(event.key==='Enter'){loadSavedDocument('${safeDocumentNo}')}"
+        >
+
+          <div>
+            <strong>
+              ${escapeHTML(documentNo)}
+            </strong>
+
+            <small>
+              ${escapeHTML(
+                doc.customer?.name || "Customer"
+              )}
+              •
+              ${escapeHTML(
+                displayDate(doc.date) || ""
+              )}
+            </small>
+          </div>
+
+          <div>
+            <strong>
+              ${money(
+                doc.financials?.customerTotal || 0,
+                doc.currency || "AED"
+              )}
+            </strong>
+          </div>
+
+        </div>
+      `;
+    }).join("");
+
+  if (typeof updateDashboard === "function") {
+    updateDashboard();
+  }
+};
+
+
+/* Search box compatibility */
+window.renderSaved = function() {
+  renderSavedDocuments();
+};
 </script>
 </body>
 </html>
