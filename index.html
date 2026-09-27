@@ -4382,7 +4382,7 @@ document.addEventListener(
       "businessTagline"
     ].forEach(id=>{
 
-      document
+   document
         .getElementById(id)
         ?.addEventListener(
           "input",
@@ -4393,8 +4393,339 @@ document.addEventListener(
 
   }
 );
+/* =========================================================
+   SMART ASSISTANT V2
+   Extracts scope quantities from the user's text
+========================================================= */
 
+function extractScopeQuantity(text) {
+
+  const patterns = [
+
+    /(\d+)\s*(?:piping\s*)?(?:locations?|points?|items?|tags?|tagnumbers?)/i,
+
+    /(?:inspection|inspect|survey|check|checking)\s+(?:of\s+)?(\d+)/i,
+
+    /(?:for|covering)\s+(\d+)/i
+
+  ];
+
+  for (const pattern of patterns) {
+
+    const match = text.match(pattern);
+
+    if (match) {
+
+      const qty = parseInt(match[1], 10);
+
+      if (Number.isFinite(qty) && qty > 0) {
+        return qty;
+      }
+    }
+  }
+
+  return 1;
+}
+
+
+function extractManpowerQuantity(text) {
+
+  const patterns = [
+
+    /(\d+)\s*(?:technicians?|inspectors?|people|persons?|manpower|workers?)/i,
+
+    /(?:technicians?|inspectors?)\s*[:\-]?\s*(\d+)/i
+
+  ];
+
+  for (const pattern of patterns) {
+
+    const match = text.match(pattern);
+
+    if (match) {
+
+      const qty = parseInt(match[1], 10);
+
+      if (Number.isFinite(qty) && qty > 0) {
+        return qty;
+      }
+    }
+  }
+
+  return 1;
+}
+
+
+function extractDuration(text) {
+
+  const match = text.match(
+    /(\d+)\s*(?:days?|day|shifts?|shift)/i
+  );
+
+  if (!match) return 1;
+
+  const days = parseInt(match[1], 10);
+
+  return Number.isFinite(days) && days > 0
+    ? days
+    : 1;
+}
+
+
+window.smartGenerate = function() {
+
+  const field =
+    document.getElementById("smartRequest");
+
+  const originalText =
+    field?.value.trim() || "";
+
+  if (!originalText) {
+
+    alert("Describe the job or service first.");
+
+    return;
+  }
+
+
+  const text =
+    originalText.toLowerCase();
+
+
+  const scopeQty =
+    extractScopeQuantity(originalText);
+
+
+  const manpowerQty =
+    extractManpowerQuantity(originalText);
+
+
+  const durationQty =
+    extractDuration(originalText);
+
+
+  const items = [];
+
+
+  /* ==========================================
+     UT / THICKNESS INSPECTION
+  ========================================== */
+
+  if (
+    text.includes("ut") ||
+    text.includes("ultrasonic") ||
+    text.includes("thickness")
+  ) {
+
+    items.push({
+      description:
+        "UT thickness inspection and field measurements",
+      qty: scopeQty,
+      price: 0,
+      cost: 0
+    });
+
+
+    if (
+      text.includes("technician") ||
+      text.includes("manpower") ||
+      text.includes("inspector")
+    ) {
+
+      items.push({
+        description:
+          "Qualified UT / NDT technician",
+        qty: manpowerQty,
+        price: 0,
+        cost: 0
+      });
+
+    }
+
+
+    if (
+      text.includes("equipment") ||
+      text.includes("machine") ||
+      text.includes("instrument")
+    ) {
+
+      items.push({
+        description:
+          "UT equipment, probes and inspection accessories",
+        qty: durationQty,
+        price: 0,
+        cost: 0
+      });
+
+    }
+
+
+    if (
+      text.includes("transport") ||
+      text.includes("transportation") ||
+      text.includes("mobilization") ||
+      text.includes("mobilisation")
+    ) {
+
+      items.push({
+        description:
+          "Mobilization, demobilization and transportation",
+        qty: 1,
+        price: 0,
+        cost: 0
+      });
+
+    }
+
+
+    if (
+      text.includes("report") ||
+      text.includes("reporting") ||
+      text.includes("documentation")
+    ) {
+
+      items.push({
+        description:
+          "Inspection data analysis and final technical report",
+        qty: 1,
+        price: 0,
+        cost: 0
+      });
+
+    }
+
+  }
+
+
+  /* ==========================================
+     GENERAL NDT
+  ========================================== */
+
+  else if (
+    text.includes("ndt") ||
+    text.includes("inspection")
+  ) {
+
+    items.push({
+      description:
+        "Inspection / NDT services",
+      qty: scopeQty,
+      price: 0,
+      cost: 0
+    });
+
+
+    if (
+      text.includes("technician") ||
+      text.includes("manpower") ||
+      text.includes("inspector")
+    ) {
+
+      items.push({
+        description:
+          "Qualified inspection personnel",
+        qty: manpowerQty,
+        price: 0,
+        cost: 0
+      });
+
+    }
+
+
+    if (
+      text.includes("equipment") ||
+      text.includes("instrument")
+    ) {
+
+      items.push({
+        description:
+          "Inspection equipment and consumables",
+        qty: durationQty,
+        price: 0,
+        cost: 0
+      });
+
+    }
+
+
+    if (
+      text.includes("transport") ||
+      text.includes("transportation") ||
+      text.includes("mobilization") ||
+      text.includes("mobilisation")
+    ) {
+
+      items.push({
+        description:
+          "Mobilization and transportation",
+        qty: 1,
+        price: 0,
+        cost: 0
+      });
+
+    }
+
+
+    if (
+      text.includes("report") ||
+      text.includes("documentation")
+    ) {
+
+      items.push({
+        description:
+          "Technical report and documentation",
+        qty: 1,
+        price: 0,
+        cost: 0
+      });
+
+    }
+
+  }
+
+
+  /* ==========================================
+     GENERIC SERVICE
+  ========================================== */
+
+  else {
+
+    items.push({
+      description: originalText,
+      qty: scopeQty,
+      price: 0,
+      cost: 0
+    });
+
+  }
+
+
+  const body =
+    document.getElementById("itemsBody");
+
+
+  if (body) {
+    body.innerHTML = "";
+  }
+
+
+  items.forEach(item => {
+    createItemRow(item);
+  });
+
+
+  calculate();
+
+
+  document
+    .getElementById("itemsBody")
+    ?.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+
+};
 </script>
 </body>
 </html>
-</div>
+
