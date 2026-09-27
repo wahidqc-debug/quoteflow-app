@@ -3292,9 +3292,9 @@ function renderSavedDocuments() {
     `).join("");
 }
 
-function loadSavedDocument(id) {
+   function loadSavedDocument(documentNo) {
   const documents = getSavedDocuments();
-  const doc = documents.find(d => String(d.id) === String(id));
+  const doc = documents.find(d => String(d.documentNo) === String(documentNo));
 
   if (!doc) {
     alert("Saved document not found.");
@@ -3302,7 +3302,7 @@ function loadSavedDocument(id) {
   }
 
   console.log("Loading saved document:", doc);
-  alert("Saved document found: " + (doc.documentNo || id));
+  alert("Saved document found: " + doc.documentNo);
 }
 /* =========================================================
    DUPLICATE
